@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>CricTruf</title>
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>:root{--y:#FFD400;--y2:#FFE45C;--y3:#FFF3A3;--k:#0A0A0A;--w:#fff;
+  --bg:#FAFAF2;--card:#fff;--ink:#0A0A0A;--mut:#6b6b5e;--line:#0A0A0A;--soft:#F3F0DC;--hdr:#0A0A0A;--hdrink:#FFD400;--btn:#FFD400;--btnink:#0A0A0A;--danger:#d62828;--ok:#1a8f3c;
+  --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
+[data-theme=dark]{--bg:#0A0A0A;--card:#161616;--ink:#fff;--mut:#a8a690;--line:#FFD400;--soft:#222;--hdr:#000;--hdrink:#FFD400;--btn:#FFD400;--btnink:#0A0A0A}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overscroll-behavior:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:2px solid var(--line);background:var(--card);border-radius:12px;padding:10px 14px;font-weight:700;touch-action:manipulation}
+button:active{transform:scale(.96)}
+button:disabled{opacity:.4}
+input,select,textarea{width:100%;border:2px solid var(--line);background:var(--card);border-radius:10px;padding:10px 12px;margin:4px 0 10px}
+input[type=checkbox],input[type=radio]{width:auto;margin:0 8px 0 0;transform:scale(1.3)}
+label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+h2{margin:18px 0 8px;font-size:18px} h3{margin:12px 0 6px;font-size:15px}
+#app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:calc(76px + var(--safe-b))}
+.top{position:sticky;top:0;z-index:20;background:var(--hdr);color:var(--hdrink);display:flex;align-items:center;gap:8px;padding:calc(10px + var(--safe-t)) 12px 10px;border-bottom:4px solid var(--y)}
+.top h1{flex:1;margin:0;font-size:18px;letter-spacing:.02em;text-transform:uppercase}
+.top button{background:transparent;color:var(--hdrink);border:2px solid var(--hdrink);padding:6px 11px;border-radius:10px}
+.brand{display:flex;align-items:center;gap:8px}.logo{width:30px;height:30px;border-radius:50%;background:var(--y);display:inline-block;position:relative;border:2px solid #fff}
+.logo:before{content:"";position:absolute;inset:3px;border-radius:50%;border:2px solid #fff;border-left-color:transparent;border-right-color:transparent;transform:rotate(30deg)}
+.page{padding:12px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px;margin:0 0 12px}
+.card.y{background:var(--y);color:#000;border-color:#000}
+.card.k{background:#000;color:var(--y);border-color:var(--y)}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.wrap{flex-wrap:wrap}.sp{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mut{color:var(--mut);font-size:13px}.c{text-align:center}.b{font-weight:800}.r{text-align:right}
+.btn{background:var(--btn);color:var(--btnink);border-color:#000;width:100%;padding:13px;font-size:16px;text-transform:uppercase;letter-spacing:.03em}
+.btn.k{background:#000;color:var(--y);border-color:var(--y)}
+.btn.sm{width:auto;padding:7px 12px;font-size:13px}.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.danger{background:var(--danger);color:#fff;border-color:#000}
+.chip{border-radius:99px;padding:7px 13px;font-size:13px;background:var(--card);border:2px solid var(--line);display:inline-block;margin:0 6px 6px 0}
+.chip.on{background:var(--y);color:#000;border-color:#000}
+.nav{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;background:var(--hdr);display:flex;border-top:4px solid var(--y);padding-bottom:var(--safe-b);z-index:30}
+.nav button{flex:1;background:transparent;border:0;border-radius:0;color:#bbb;padding:9px 2px;font-size:11px;text-transform:uppercase;font-weight:800}
+.nav button.on{color:var(--y)}.nav button i{display:block;font-style:normal;font-size:20px}
+.list>.item{display:flex;align-items:center;gap:10px;padding:11px 4px;border-bottom:1px solid var(--soft)}
+.item .grow{flex:1;min-width:0}.avatar{width:40px;height:40px;border-radius:50%;background:var(--y);color:#000;font-weight:900;display:flex;align-items:center;justify-content:center;border:2px solid #000;overflow:hidden;flex:none}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.tag{display:inline-block;background:var(--y);color:#000;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:900;text-transform:uppercase}
+.tag.k{background:#000;color:var(--y)}.tag.red{background:var(--danger);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 4px;text-align:right;border-bottom:1px solid var(--soft)}th:first-child,td:first-child{text-align:left}
+th{font-size:11px;text-transform:uppercase;color:var(--mut)}
+/* scoring */
+.score-head{background:#000;color:var(--y);border-radius:18px;padding:14px;margin:0 0 10px;border:3px solid var(--y)}
+.score-head .tm{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#fff}
+.score-head .big{font-size:50px;font-weight:900;line-height:1}.score-head .big small{font-size:20px;color:#fff;font-weight:700}
+.score-head .sub{color:#fff;font-size:13px;margin-top:4px}
+.fh{background:var(--danger);color:#fff;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:900;animation:blink .8s infinite alternate}
+@keyframes blink{to{opacity:.45}}
+.balls{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.ball{min-width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;background:#fff;color:#000;border:2px solid #000;padding:0 4px}
+.ball.f{background:var(--y)}.ball.s{background:#000;color:var(--y);border-color:var(--y)}.ball.w{background:var(--danger);color:#fff}.ball.x{background:var(--soft)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.pbtn{height:64px;font-size:28px;background:var(--card)}.pbtn.r4{background:var(--y);color:#000}.pbtn.r6{background:#000;color:var(--y);border-color:var(--y)}
+.pbtn.dot{background:var(--soft)}
+.mods{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.mods .chip{margin:0;text-align:center;padding:10px 2px;border-radius:12px}
+.act{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}.act .wk{background:var(--danger);color:#fff;border-color:#000}
+.seg{display:flex;border:2px solid var(--line);border-radius:12px;overflow:hidden;margin:8px 0}.seg button{flex:1;border:0;border-radius:0;background:transparent}.seg button.on{background:var(--y);color:#000}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.65);display:flex;align-items:flex-end;justify-content:center}
+.modal>.sheet{background:var(--bg);border-top:5px solid var(--y);border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:88vh;overflow:auto;padding:14px 14px calc(18px + var(--safe-b))}
+.sheet h2{margin-top:0}.close{float:right;width:auto;padding:4px 12px}
+/* ground: dark green turf */
+svg.ground{width:100%;height:auto;display:block;touch-action:manipulation}
+.ground .zn{stroke:rgba(255,255,255,.4);stroke-width:1.6;cursor:pointer;transition:filter .1s}
+.ground.heat .zn{stroke:#000;stroke-width:1.4}
+.ground .r0{fill:#2a7d43}.ground .r1{fill:#1f6a36}.ground .r2{fill:#175a2c}.ground .r3{fill:#0e4420}.ground .r4{fill:#05210e}
+.ground .zt{font-weight:900;font-size:30px;text-anchor:middle;dominant-baseline:central;pointer-events:none;fill:#fff}
+.ground .zt.r2{fill:#FFE45C}.ground .zt.r3{fill:var(--y)}.ground .zt.r4{fill:#fff}.ground .zt.zb{fill:#111}
+.ground .zn.sel{stroke:var(--y);stroke-width:7;filter:drop-shadow(0 0 8px var(--y));animation:pulse .7s infinite alternate}
+.ground .zn.selk{stroke:#000;stroke-width:6}
+@keyframes pulse{to{opacity:.75}}
+.ground .pitch{fill:#F2E6B1;stroke:#000;stroke-width:3}
+.ground .pitch,.ground line,.ground .box,.ground .nm,.ground .zn-name{pointer-events:none}
+.ground .box{fill:none;stroke:#031a0b;stroke-width:5}.ground .stump{stroke:#000;stroke-width:6}
+.ground .zb2{fill:#dfe6df}.ground .zn.off{opacity:.3}
+.ground .nm{font-size:17px;font-weight:800;text-anchor:middle;dominant-baseline:central;fill:#fff;paint-order:stroke;stroke:#05210e;stroke-width:4px;stroke-linejoin:round}
+.ground .zn-name{font-size:16px;font-weight:800;text-anchor:middle;fill:#3b5a43;letter-spacing:.5px}
+.ground:not(.heat) .zn-name:not([x="378.5"]){fill:#4a6150}
+.ground .zn-name[x="378.5"]{fill:#d7f0dd}
+.ground .lbl{font-size:20px;font-weight:800;fill:var(--mut);text-anchor:middle}
+.zinfo{background:var(--y);color:#000;border:3px solid #000;border-radius:14px;padding:8px 10px;margin:8px 0;position:sticky;bottom:calc(8px + var(--safe-b));z-index:15;box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.zinfo .row button{padding:8px 4px}
+.zinfo .z{font-size:18px;font-weight:900}.zinfo button{background:#fff;color:#000;border-color:#000}
+.empty{padding:36px 16px;text-align:center;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#000;color:var(--y);padding:10px 18px;border-radius:99px;font-weight:800;z-index:90;border:2px solid var(--y);animation:tin .2s}
+@keyframes tin{from{opacity:0;transform:translate(-50%,10px)}}
+.coin{width:110px;height:110px;border-radius:50%;margin:10px auto;background:radial-gradient(circle at 35% 30%,#fff3a3,#FFD400 55%,#b89700);border:4px solid #000;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;color:#000}
+.coin.flip{animation:flip 1s ease-in-out}@keyframes flip{to{transform:rotateY(1440deg)}}
+.bar{height:16px;background:var(--y);border:2px solid #000;border-radius:5px}.bars{display:flex;align-items:flex-end;gap:5px;height:120px;margin:8px 0}
+.bars>div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:10px;font-weight:800;height:100%}
+.bars .col{width:100%;background:var(--y);border:2px solid #000;border-radius:5px 5px 0 0;min-height:2px}.bars .col.wk{background:var(--danger)}
+.kpi{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px;text-align:center}.kpi b{display:block;font-size:24px}.kpi span{font-size:11px;text-transform:uppercase;color:var(--mut);font-weight:800}
+/* celebration (4 and 6) */
+.cele{position:fixed;inset:0;z-index:100;pointer-events:none;display:flex;align-items:center;justify-content:center;overflow:hidden;animation:cele 1.9s ease-out forwards}
+@keyframes cele{0%{opacity:0}8%{opacity:1}75%{opacity:1}100%{opacity:0}}
+.cele .txt{font-size:25vw;max-font-size:140px;font-weight:1000;font-family:Impact,system-ui,sans-serif;letter-spacing:.04em;animation:pop .6s cubic-bezier(.2,1.6,.4,1) both;text-shadow:0 6px 0 rgba(0,0,0,.35);z-index:3}
+@keyframes pop{from{transform:scale(.2) rotate(-12deg)}}
+.cele.c4{background:radial-gradient(circle at 50% 50%,#fff 0%,#FFE45C 22%,#FFD400 45%,#000 100%)}
+.cele.c4 .txt{color:#000;-webkit-text-stroke:3px #fff}
+.cele.c4 .ring{position:absolute;border:8px solid #000;border-radius:50%;width:30vmin;height:30vmin;animation:ring 1.3s ease-out infinite;opacity:0}
+.cele.c4 .ring:nth-child(2){animation-delay:.25s;border-color:#fff}.cele.c4 .ring:nth-child(3){animation-delay:.5s}
+@keyframes ring{0%{transform:scale(.3);opacity:.9}100%{transform:scale(5);opacity:0}}
+.cele.c6{background:#000}
+.cele.c6:before{content:"";position:absolute;width:260vmax;height:260vmax;background:repeating-conic-gradient(from 0deg,#FFD400 0 10deg,#000 10deg 20deg);animation:spin 3s linear infinite;opacity:.9;mask-image:radial-gradient(circle,#000 0,transparent 60%);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 60%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cele.c6 .txt{color:#FFD400;-webkit-text-stroke:3px #000;text-shadow:0 0 30px #fff,0 6px 0 #000}
+.cele .cf{position:absolute;top:-20px;width:10px;height:16px;animation:fall 1.8s linear forwards;z-index:2}
+@keyframes fall{to{transform:translateY(115vh) rotate(720deg)}}
+.hide{display:none!important}
+.login{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:24px;background:#000;color:var(--y)}
+.login h1{font-size:34px;margin:12px 0;line-height:1.05;text-transform:uppercase}.login input,.login select{background:#fff;color:#000;border-color:var(--y)}
+.login label{color:#fff}
+.hero{background:var(--y);color:#000;border:3px solid #000;border-radius:20px;padding:16px;margin-bottom:12px}
+.stepper{display:flex;gap:4px;margin-bottom:12px}.stepper i{flex:1;height:6px;border-radius:3px;background:var(--soft)}.stepper i.on{background:var(--y);outline:1px solid #000}
+.sw{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--soft);gap:10px}
+.sw input{width:auto;margin:0;transform:scale(1.4)}
+details{margin:6px 0}summary{font-weight:800;cursor:pointer;padding:8px 0}
+.boardwrap{background:#000;color:#fff;min-height:100vh;padding:14px}.boardwrap .teams{display:flex;justify-content:space-between;align-items:center}
+.boardwrap .sc{font-size:72px;font-weight:1000;color:var(--y);line-height:1;text-align:center;margin:10px 0}
+.boardwrap .av{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px;border:3px solid var(--y);color:#000}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/* CricTruf: pure scoring engine (no DOM). State is derived by replaying
+   the ball-by-ball event log, so undo/correction/strike-rotation are always consistent. */
+(function (g) {
+  'use strict';
+  const uid = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
+
+  const RINGS = ['Zone 1 (near)', 'Middle', 'Outer', 'Boundary (4)', 'Over the net (6)', 'Back wall', 'Zone 2'];
+  // Front-field shot sectors, left to right across the ground (off side on the left for a right-hand batter)
+  const SHOTS = ['Reverse sweep', 'Late cut', 'Cut', 'Cover', 'Mid off', 'Straight drive', 'Straight lofted', 'Mid on', 'Flick', 'Sweep', 'Paddle sweep'];
+  const SECTORS = SHOTS.length;
+
+  const DISMISSALS = [
+    { k: 'bowled', label: 'Bowled', bowler: true },
+    { k: 'caught', label: 'Caught (direct)', bowler: true },
+    { k: 'oneTipOneHand', label: 'One-tip-one-hand', bowler: true },
+    { k: 'lbw', label: 'LBW', bowler: true },
+    { k: 'stumped', label: 'Stumped', bowler: true },
+    { k: 'hitWicket', label: 'Hit wicket', bowler: true },
+    { k: 'runOut', label: 'Run out', bowler: false },
+  ];
+
+  const DEFAULT_RULES = {
+    ballsPerOver: 6,
+    wideRuns: 1, noBallRuns: 1,
+    wideReball: true, noBallReball: true,
+    freeHit: true,
+    overEndSwap: true,
+    lastManBatting: false,
+    maxOversPerBowler: 0,
+    superOver: true, superOverWickets: 2, superOverOvers: 1,
+    autoCommitZone: false,
+    dismissals: { bowled: true, caught: true, oneTipOneHand: true, lbw: false, stumped: true, hitWicket: true, runOut: true },
+    special: [
+      { id: 'sw', name: 'Side wall', runs: 2, rotate: 'keep', out: false },
+      { id: 'nt', name: 'Net touch', runs: 1, rotate: 'change', out: false },
+      { id: 'rf', name: 'Roof / out of ground', runs: 6, rotate: 'keep', out: false },
+    ],
+    notes: '',
+  };
+
+  // Zone 1 = the near ring around the pitch (all 11 shot sectors), Zone 2 = the grey wedges beside the pitch.
+  // Only these two are DIC zones: default 1 run and the same striker (strike changes only when the over completes).
+  // The rest of the ground is fixed: middle 2, outer 3 (strike changes), boundary 4, over the net 6.
+  // 4 and 6 exist only in the front-field shot sectors.
+  function buildDefaultZones() {
+    const z = [{ id: 'z2', ring: 6, sec: 0, label: 'Zone 2', runs: 1, rotate: 'keep', off: false }];
+    const cfg = [[1, 'keep'], [2, 'keep'], [3, 'change'], [4, 'keep'], [6, 'keep']];
+    for (let r = 0; r < 5; r++) for (let s = 0; s < SECTORS; s++)
+      z.push({ id: 'f' + r + 's' + s, ring: r, sec: s, label: SHOTS[s], runs: cfg[r][0], rotate: cfg[r][1], off: false });
+    return z;
+  }
+  // Old presets (back-wall Zone 1 strip) are rebuilt in the new layout, keeping shot names and Zone 2 settings.
+  function upgradeZones(d) {
+    if (!d || !d.zones || !d.zones.some(z => z.id === 'z1')) return d;
+    const nz = buildDefaultZones(), z2 = d.zones.find(z => z.id === 'z2');
+    nz.forEach(z => { if (z.id === 'z2' && z2) { z.runs = z2.runs; z.rotate = z2.rotate; z.off = !!z2.off; } else if (z.ring < 5) { const o = d.zones.find(x => x.ring < 5 && x.sec === z.sec); if (o) z.label = o.label; } });
+    d.zones = nz; return d;
+  }
+  function defaultDic(name) { return { id: uid(), name: name || 'Default Turf', turf: '', zones: buildDefaultZones() }; }
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const rulesOf = m => Object.assign({}, DEFAULT_RULES, m && m.rules);
+
+  function oversStr(legal, bpo) { bpo = bpo || 6; return Math.floor(legal / bpo) + '.' + (legal % bpo); }
+
+  /* ---------- Match / innings creation ---------- */
+  function createMatch(cfg) {
+    return {
+      id: uid(), name: cfg.name || 'Match', date: cfg.date, venue: cfg.venue || '', turf: cfg.turf || '',
+      overs: +cfg.overs || 10, teams: cfg.teams, toss: null, battingFirst: null,
+      rules: clone(Object.assign({}, DEFAULT_RULES, cfg.rules || {})),
+      dic: clone(cfg.dic || defaultDic()), innings: [], audit: [], created: Date.now(),
+      tournamentId: cfg.tournamentId || null, fixtureId: cfg.fixtureId || null, status: 'toss',
+    };
+  }
+  function newInnings(match, batIdx, opts) {
+    opts = opts || {};
+    const R = rulesOf(match);
+    const bat = match.teams[batIdx], n = bat.xi.length;
+    const sup = opts.type === 'super';
+    const prev = opts.chaseOf != null ? replay(match, match.innings[opts.chaseOf]) : null;
+    const inn = {
+      id: uid(), batting: batIdx, bowling: 1 - batIdx, type: sup ? 'super' : 'normal',
+      overs: sup ? R.superOverOvers : match.overs,
+      maxWkts: sup ? Math.min(R.superOverWickets, R.lastManBatting ? n : n - 1) : (R.lastManBatting ? n : Math.max(1, n - 1)),
+      squad: bat.xi.slice(), target: prev ? prev.runs + 1 : null, events: [],
+    };
+    match.innings.push(inn);
+    return inn;
+  }
+
+  /* ---------- Replay ---------- */
+  function ballLabel(e) {
+    let s = '';
+    if (e.extra === 'wd') s = 'Wd' + (e.runs ? '+' + e.runs : '');
+    else if (e.extra === 'nb') s = 'Nb' + (e.runs ? '+' + e.runs : '');
+    else if (e.extra === 'b') s = e.runs + 'B';
+    else if (e.extra === 'lb') s = e.runs + 'LB';
+    else s = e.runs === 0 ? '•' : String(e.runs);
+    if (e.wicket) s = (e.extra || e.runs ? s + ' ' : '') + 'W';
+    return s;
+  }
+
+  function replay(match, inn) {
+    const R = rulesOf(match), bpo = R.ballsPerOver;
+    const st = {
+      runs: 0, wkts: 0, legal: 0, extras: { wd: 0, nb: 0, b: 0, lb: 0 },
+      striker: null, nonStriker: null, bowler: null, lastBowler: null,
+      batters: {}, order: [], bowlers: {}, bowlerOrder: [], fow: [], part: { runs: 0, balls: 0 },
+      overs: [], timeline: [], freeHit: false, ended: false, endReason: '', opened: false,
+      target: inn.target || null, bpo, inn,
+    };
+    const touch = id => {
+      if (id == null) return;
+      if (!st.batters[id]) { st.batters[id] = { id, runs: 0, balls: 0, fours: 0, sixes: 0, dots: 0, out: false, how: '', retired: false }; st.order.push(id); }
+    };
+    const bw = id => {
+      if (!st.bowlers[id]) { st.bowlers[id] = { id, balls: 0, runs: 0, wkts: 0, maidens: 0, wd: 0, nb: 0, dots: 0, curBalls: 0, curRuns: 0 }; st.bowlerOrder.push(id); }
+      return st.bowlers[id];
+    };
+    const avail = () => inn.squad.filter(id => !st.batters[id]).length;
+    const swap = () => { if ((st.striker != null && st.nonStriker != null) || avail() > 0) { const t = st.striker; st.striker = st.nonStriker; st.nonStriker = t; } };
+    const overRec = i => { while (st.overs.length <= i) st.overs.push({ runs: 0, wkts: 0, balls: 0 }); return st.overs[i]; };
+
+    for (const e of inn.events) {
+      if (st.ended) break;
+      if (e.t === 'open') { st.striker = e.striker; st.nonStriker = e.nonStriker; touch(e.striker); touch(e.nonStriker); st.opened = true; }
+      else if (e.t === 'bowler') { st.bowler = e.id; bw(e.id); }
+      else if (e.t === 'batter') { touch(e.id); if (st.striker == null) st.striker = e.id; else if (st.nonStriker == null) st.nonStriker = e.id; }
+      else if (e.t === 'retire') {
+        const ob = st.batters[e.out]; if (ob) { ob.retired = true; ob.how = 'retired'; }
+        if (st.striker === e.out) st.striker = e.in != null ? e.in : null; else if (st.nonStriker === e.out) st.nonStriker = e.in != null ? e.in : null;
+        touch(e.in);
+      }
+      else if (e.t === 'end') { st.ended = true; st.endReason = 'Innings closed'; }
+      else if (e.t === 'ball') {
+        const x = e.extra || null, r = e.runs || 0, pen = e.pen || 0, total = pen + r;
+        const legal = !!e.legal, bat = (x === null || x === 'nb') ? r : 0;
+        const ovIdx = Math.floor(st.legal / bpo);
+        const b = st.batters[st.striker], bwl = bw(st.bowler);
+        st.runs += total;
+        if (x === 'wd') st.extras.wd += total; else if (x === 'nb') st.extras.nb += pen; else if (x === 'b') st.extras.b += r; else if (x === 'lb') st.extras.lb += r;
+        if (b) {
+          if (x !== 'wd') b.balls++;
+          b.runs += bat; if (bat === 4) b.fours++; if (bat === 6) b.sixes++;
+          if (x === null && r === 0) b.dots++;
+        }
+        const conceded = (x === 'b' || x === 'lb') ? 0 : total;
+        bwl.runs += conceded; bwl.curRuns += conceded;
+        if (x === 'wd') bwl.wd += total; if (x === 'nb') bwl.nb += pen;
+        if (x === null && r === 0) bwl.dots++;
+        if (legal) { bwl.balls++; bwl.curBalls++; st.legal++; st.part.balls++; }
+        st.part.runs += total;
+        const ov = overRec(ovIdx); ov.runs += total; if (legal) ov.balls++;
+        // free hit
+        if (x === 'nb' && R.freeHit) st.freeHit = true; else if (legal) st.freeHit = false;
+        if (e.rotate) swap();
+        if (e.wicket) {
+          const w = e.wicket, ob = st.batters[w.out];
+          st.wkts++; ov.wkts++;
+          if (ob) { ob.out = true; ob.how = w.kind; ob.bowler = w.bowlerCredit ? st.bowler : null; ob.fielder = w.fielder || ''; }
+          if (st.striker === w.out) st.striker = null; else if (st.nonStriker === w.out) st.nonStriker = null;
+          if (w.bowlerCredit) bwl.wkts++;
+          st.fow.push({ n: st.wkts, runs: st.runs, over: oversStr(st.legal, bpo), batter: w.out, partnership: st.part.runs });
+          st.part = { runs: 0, balls: 0 };
+        }
+        st.timeline.push({ over: ovIdx, label: ballLabel(e), runs: total, legal, wicket: !!e.wicket, four: bat === 4, six: bat === 6, id: e.id, zone: e.zoneLabel || '' });
+        // end of over
+        if (legal && st.legal % bpo === 0) {
+          if (bwl.curRuns === 0) bwl.maidens++;
+          bwl.curBalls = 0; bwl.curRuns = 0;
+          st.lastBowler = st.bowler; st.bowler = null;
+          if (R.overEndSwap) swap();
+        }
+        // innings end checks
+        if (st.wkts >= inn.maxWkts) { st.ended = true; st.endReason = 'All out'; }
+        else if (st.legal >= inn.overs * bpo) { st.ended = true; st.endReason = 'Overs complete'; }
+        else if (inn.target && st.runs >= inn.target) { st.ended = true; st.endReason = 'Target reached'; }
+      }
+    }
+    st.availBatters = inn.squad.filter(id => !st.batters[id]);
+    st.needOpeners = !st.opened && !st.ended;
+    st.needBatter = st.opened && !st.ended && (st.striker == null || st.nonStriker == null) && st.availBatters.length > 0;
+    st.needBowler = st.opened && !st.ended && !st.needBatter && st.bowler == null;
+    st.oversText = oversStr(st.legal, bpo);
+    st.ballsLeft = Math.max(0, inn.overs * bpo - st.legal);
+    st.crr = st.legal ? st.runs / (st.legal / bpo) : 0;
+    st.runsNeeded = inn.target ? Math.max(0, inn.target - st.runs) : null;
+    st.rrr = inn.target && st.ballsLeft ? (st.runsNeeded / st.ballsLeft) * bpo : null;
+    st.extrasTotal = st.extras.wd + st.extras.nb + st.extras.b + st.extras.lb;
+    return st;
+  }
+
+  function bowlerAllowed(match, st, id) {
+    const R = rulesOf(match);
+    if (id === st.lastBowler) return false;
+    const b = st.bowlers[id];
+    if (R.maxOversPerBowler && b && b.balls >= R.maxOversPerBowler * R.ballsPerOver) return false;
+    return true;
+  }
+
+  /* ---------- Scoring actions ---------- */
+  function buildBall(match, o) {
+    // o: {runs, extra, rotate, zone, special, wicket, manual}
+    const R = rulesOf(match);
+    const x = o.extra || null;
+    const pen = x === 'wd' ? R.wideRuns : x === 'nb' ? R.noBallRuns : 0;
+    const legal = x === 'wd' ? !R.wideReball : x === 'nb' ? !R.noBallReball : true;
+    let rotate = o.rotate;
+    if (rotate == null) rotate = (o.runs || 0) % 2 === 1;
+    return {
+      t: 'ball', id: uid(), ts: Date.now(), runs: o.runs || 0, extra: x, pen, legal, rotate: !!rotate,
+      zone: o.zone || null, zoneLabel: o.zoneLabel || '', special: o.special || null, manual: !!o.manual,
+      wicket: o.wicket || null,
+    };
+  }
+  function addBall(match, inn, o) { const e = buildBall(match, o); inn.events.push(e); return e; }
+
+  function undo(match, inn) {
+    let i = -1;
+    for (let k = inn.events.length - 1; k >= 0; k--) if (inn.events[k].t === 'ball') { i = k; break; }
+    let removed = null;
+    if (i >= 0) { removed = inn.events[i]; inn.events.length = i; }
+    else if (inn.events.length && inn.events[inn.events.length - 1].t !== 'open') removed = inn.events.pop();
+    if (removed) match.audit.push({ ts: Date.now(), action: 'undo', innings: match.innings.indexOf(inn), event: removed });
+    return removed;
+  }
+  function correctBall(match, inn, ballId, patch) {
+    const e = inn.events.find(x => x.id === ballId);
+    if (!e) return false;
+    const before = clone(e);
+    if (before.wicket && patch.wicket === null) { // wicket removed: drop the replacement-batter event that followed it
+      const i = inn.events.indexOf(e); while (inn.events[i + 1] && inn.events[i + 1].t === 'batter') inn.events.splice(i + 1, 1);
+    }
+    Object.assign(e, patch);
+    const R = rulesOf(match);
+    e.pen = e.extra === 'wd' ? R.wideRuns : e.extra === 'nb' ? R.noBallRuns : 0;
+    e.legal = e.extra === 'wd' ? !R.wideReball : e.extra === 'nb' ? !R.noBallReball : true;
+    e.manual = true;
+    match.audit.push({ ts: Date.now(), action: 'correct', innings: match.innings.indexOf(inn), before, after: clone(e) });
+    return true;
+  }
+
+  /* ---------- Match evaluation ---------- */
+  function evaluate(match) {
+    const R = rulesOf(match);
+    const out = { status: 'toss', current: -1, next: null, winner: null, text: '', tied: false, pair: 0 };
+    if (match.battingFirst == null) return out;
+    out.status = 'live';
+    let first = match.battingFirst;
+    for (let p = 0; ; p++) {
+      const i = 2 * p, j = i + 1;
+      out.pair = p;
+      if (!match.innings[i]) { out.next = p === 0 ? 'startInnings' : 'superOver'; out.nextBat = first; out.current = -1; return out; }
+      const a = replay(match, match.innings[i]);
+      if (!a.ended) { out.current = i; return out; }
+      if (!match.innings[j]) { out.next = 'startSecond'; out.nextBat = 1 - first; out.current = -1; out.pairFirst = i; return out; }
+      const b = replay(match, match.innings[j]);
+      if (!b.ended) { out.current = j; return out; }
+      if (b.runs > a.runs) {
+        const left = match.innings[j].maxWkts - b.wkts, bl = b.ballsLeft;
+        out.winner = match.innings[j].batting;
+        out.text = match.teams[out.winner].name + ' won by ' + left + ' wicket' + (left === 1 ? '' : 's') + (match.innings[j].type === 'super' ? '' : ' (' + bl + ' ball' + (bl === 1 ? '' : 's') + ' left)');
+      } else if (a.runs > b.runs) {
+        out.winner = match.innings[i].batting;
+        const d = a.runs - b.runs;
+        out.text = match.teams[out.winner].name + ' won by ' + d + ' run' + (d === 1 ? '' : 's');
+      } else {
+        if (R.superOver && p < 5) {
+          first = match.innings[j].batting; // team that batted second bats first in the super over
+          out.tied = true; out.current = -1;
+          if (!match.innings[2 * p + 2]) { out.next = 'superOver'; out.nextBat = first; return out; }
+          continue;
+        }
+        out.text = 'Match tied'; out.tied = true;
+      }
+      out.status = 'completed'; out.current = j; return out;
+    }
+  }
+
+  /* ---------- Aggregates ---------- */
+  function playerName(match, id) {
+    for (const t of match.teams) { const p = t.players.find(p => p.id === id); if (p) return p.name; }
+    return '?';
+  }
+  function dismissalText(match, st, b) {
+    if (b.retired) return 'retired';
+    if (!b.out) return st.striker === b.id || st.nonStriker === b.id ? 'not out' : (st.ended ? 'did not bat/not out' : 'yet to bat');
+    const bn = b.bowler ? playerName(match, b.bowler) : '';
+    const f = b.fielder ? ' (' + b.fielder + ')' : '';
+    switch (b.how) {
+      case 'bowled': return 'b ' + bn;
+      case 'caught': return 'c' + f + ' b ' + bn;
+      case 'oneTipOneHand': return 'c (OTOH)' + f + ' b ' + bn;
+      case 'lbw': return 'lbw b ' + bn;
+      case 'stumped': return 'st' + f + ' b ' + bn;
+      case 'hitWicket': return 'hit wkt b ' + bn;
+      case 'runOut': return 'run out' + f;
+      default: return b.how;
+    }
+  }
+
+  function analytics(match) {
+    const zones = {}, shots = {}, byRing = RINGS.map(() => ({ balls: 0, runs: 0 }));
+    let balls = 0, dots = 0, bounds = 0, runs = 0, legalBalls = 0;
+    const zmap = {}; (match.dic.zones || []).forEach(z => zmap[z.id] = z);
+    const overs = [];
+    match.innings.forEach((inn, idx) => {
+      const st = replay(match, inn);
+      overs.push({ team: match.teams[inn.batting].name, overs: st.overs.map(o => o.runs), wkts: st.overs.map(o => o.wkts) });
+      inn.events.forEach(e => {
+        if (e.t !== 'ball') return;
+        balls++; if (e.legal) legalBalls++;
+        const bat = (!e.extra || e.extra === 'nb') ? e.runs : 0;
+        if (!e.extra && e.runs === 0) dots++;
+        if (bat === 4 || bat === 6) bounds++;
+        runs += e.pen + e.runs;
+        if (e.zone) {
+          const z = zones[e.zone] || (zones[e.zone] = { id: e.zone, label: e.zoneLabel, count: 0, runs: 0 });
+          z.count++; z.runs += e.runs;
+          const zz = zmap[e.zone]; if (zz) { byRing[zz.ring].balls++; byRing[zz.ring].runs += e.runs; }
+          const sh = shots[e.zoneLabel] || (shots[e.zoneLabel] = { label: e.zoneLabel, count: 0, runs: 0 }); sh.count++; sh.runs += e.runs;
+        }
+      });
+    });
+    return { zones, shots, byRing, balls, dots, bounds, runs, dotPct: balls ? dots / balls * 100 : 0, boundPct: balls ? bounds / balls * 100 : 0, overs };
+  }
+
+  function playerStats(matches) {
+    const S = {};
+    const P = id => S[id] || (S[id] = { id, matches: 0, inns: 0, notOuts: 0, runs: 0, balls: 0, fours: 0, sixes: 0, hs: 0, wkts: 0, conceded: 0, bowled: 0, maidens: 0, _m: new Set() });
+    matches.forEach(m => m.innings.forEach(inn => {
+      const st = replay(m, inn);
+      st.order.forEach(id => { const b = st.batters[id], p = P(id); p._m.add(m.id); p.inns++; if (!b.out) p.notOuts++; p.runs += b.runs; p.balls += b.balls; p.fours += b.fours; p.sixes += b.sixes; p.hs = Math.max(p.hs, b.runs); });
+      st.bowlerOrder.forEach(id => { const b = st.bowlers[id], p = P(id); p._m.add(m.id); p.wkts += b.wkts; p.conceded += b.runs; p.bowled += b.balls; p.maidens += b.maidens; });
+    }));
+    Object.values(S).forEach(p => {
+      p.matches = p._m.size; delete p._m;
+      const outs = p.inns - p.notOuts;
+      p.avg = outs > 0 ? p.runs / outs : p.runs; p.sr = p.balls ? p.runs / p.balls * 100 : 0;
+      p.econ = p.bowled ? p.conceded / (p.bowled / 6) : 0;
+    });
+    return S;
+  }
+
+  g.CE = { uid, clone, RINGS, SHOTS, SECTORS, DISMISSALS, DEFAULT_RULES, rulesOf, buildDefaultZones, upgradeZones, defaultDic, createMatch, newInnings, replay, buildBall, addBall, undo, correctBall, evaluate, bowlerAllowed, playerName, dismissalText, analytics, playerStats, oversStr, ballLabel };
+  if (typeof module !== 'undefined') module.exports = g.CE;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>/* Core: storage, router, helpers, DIC ground renderer, celebrations */
+(function () {
+  'use strict';
+  const CE = window.CE;
+  const KEY = 'crictruf_db_v1';
+  const A = window.A = { views: {}, actions: {}, CE, KEY };
+
+  const defaultDB = () => ({
+    v: 1, user: null, theme: 'light', sound: true, mode: 'buttons',
+    teams: [], dics: [CE.defaultDic('Default Turf')], rules: CE.clone(CE.DEFAULT_RULES),
+    matches: [], tournaments: [], activeMatch: null, serverUrl: '', lastSync: 0,
+  });
+  let db = null;
+  try { db = JSON.parse(localStorage.getItem(KEY)); } catch (e) { }
+  if (!db || !db.v) db = defaultDB();
+  db.rules = Object.assign(CE.clone(CE.DEFAULT_RULES), db.rules || {});
+  db.rules.dismissals = Object.assign({}, CE.DEFAULT_RULES.dismissals, db.rules.dismissals);
+  if (!db.dics || !db.dics.length) db.dics = [CE.defaultDic('Default Turf')];
+  db.dics.forEach(CE.upgradeZones);
+  (db.matches || []).forEach(m => m && m.dic && CE.upgradeZones(m.dic));
+  A.db = db;
+  A.ui = { view: 'login', params: {}, stack: [], modal: null, mod: null, zoneSel: null, zoneOv: null, draft: null, tab: 0 };
+  const ui = A.ui;
+
+  A.save = function () { try { localStorage.setItem(KEY, JSON.stringify(A.db)); } catch (e) { A.toast('Storage full: export a backup'); } };
+  A.esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const esc = A.esc;
+  A.fmt1 = n => (Math.round(n * 10) / 10).toFixed(1);
+  A.fmt2 = n => (Math.round(n * 100) / 100).toFixed(2);
+  A.today = () => new Date().toISOString().slice(0, 10);
+  A.getMatch = () => A.db.matches.find(m => m.id === A.db.activeMatch) || null;
+  A.matchById = id => A.db.matches.find(m => m.id === id);
+  A.canScore = () => !A.db.user || A.db.user.role !== 'viewer';
+  A.canConfig = () => !A.db.user || A.db.user.role === 'admin';
+  A.initials = n => (n || '?').split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  A.nameOf = id => {
+    for (const t of A.db.teams) { const p = t.players.find(p => p.id === id); if (p) return p.name; }
+    for (const m of A.db.matches) for (const t of m.teams) { const p = t.players.find(p => p.id === id); if (p) return p.name; }
+    return '?';
+  };
+
+  /* ---------- toast ---------- */
+  A.toast = function (msg) {
+    const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1800);
+  };
+
+  /* ---------- router ---------- */
+  A.go = function (view, params, replace) {
+    if (!replace) { ui.stack.push({ view: ui.view, params: ui.params }); try { history.pushState({}, ''); } catch (e) { } }
+    ui.view = view; ui.params = params || {}; ui.modal = null; ui.zoneSel = null; ui.mod = null;
+    A.render(); window.scrollTo(0, 0);
+  };
+  A.back = function () {
+    const p = ui.stack.pop();
+    if (p) { ui.view = p.view; ui.params = p.params; } else ui.view = 'home';
+    ui.modal = null; ui.zoneSel = null; A.render();
+  };
+  window.addEventListener('popstate', () => { if (ui.stack.length) A.back(); });
+
+  /* ---------- render ---------- */
+  A.render = function () {
+    document.documentElement.dataset.theme = A.db.theme;
+    const v = A.views[ui.view] || A.views.home;
+    const out = v();
+    const root = document.getElementById('app');
+    const scroll = window.scrollY;
+    root.innerHTML = out.html + (ui.modal ? A.modalHTML() : '');
+    if (out.keepScroll) window.scrollTo(0, scroll);
+  };
+
+  A.header = function (title, opts) {
+    opts = opts || {};
+    return '<header class="top">' + (opts.noBack ? '<span class="logo"></span>' : '<button data-a="back" aria-label="Back">‹</button>') +
+      '<h1>' + esc(title) + '</h1>' + (opts.right || '') +
+      '<button data-a="theme" aria-label="Theme">' + (A.db.theme === 'dark' ? '☀' : '☾') + '</button></header>';
+  };
+  A.navbar = function (on) {
+    const items = [['home', '⌂', 'Home'], ['history', '▤', 'Matches'], ['teams', '☻', 'Teams'], ['stats', '▥', 'Stats'], ['more', '☰', 'More']];
+    return '<nav class="nav">' + items.map(i => '<button class="' + (on === i[0] ? 'on' : '') + '" data-a="nav" data-v="' + i[0] + '"><i>' + i[1] + '</i>' + i[2] + '</button>').join('') + '</nav>';
+  };
+  A.page = (title, body, nav, opts) => ({ html: A.header(title, opts) + '<div class="page">' + body + '</div>' + (nav ? A.navbar(nav) : ''), keepScroll: opts && opts.keepScroll });
+
+  /* ---------- events ---------- */
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-a]');
+    if (!el) return;
+    const fn = A.actions[el.dataset.a];
+    if (fn) { fn(el, e); }
+  });
+  function setPath(path, val) {
+    const parts = path.split('.'); const roots = { ui: A.ui, db: A.db, draft: A.ui.draft };
+    let o = roots[parts[0]]; if (!o) return;
+    for (let i = 1; i < parts.length - 1; i++) { if (o[parts[i]] == null) o[parts[i]] = {}; o = o[parts[i]]; }
+    o[parts[parts.length - 1]] = val;
+    return parts[0];
+  }
+  function onBind(e) {
+    const el = e.target.closest('[data-b]'); if (!el) return;
+    if (e.type === 'input' && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'radio' || el.type === 'file')) return;
+    let val = el.type === 'checkbox' ? el.checked : el.value;
+    if (el.dataset.n != null) val = Number(val) || 0;
+    const root = setPath(el.dataset.b, val);
+    if (root === 'db') A.save();
+    if (el.dataset.r != null && e.type === 'change') A.render();
+  }
+  document.addEventListener('input', onBind); document.addEventListener('change', onBind);
+
+  /* ---------- DIC ground renderer ---------- */
+  function heatColor(v) {
+    if (!v) return '#ffffff';
+    if (v < 0.5) { const t = v / 0.5; return 'rgb(255,' + Math.round(255 - 43 * t) + ',' + Math.round(255 - 255 * t) + ')'; }
+    const t = (v - 0.5) / 0.5; return 'rgb(255,' + Math.round(212 - 90 * t) + ',0)';
+  }
+  /* Box-cricket ground (batter at the top), drawn like the reference picture.
+     Zone 2 = the grey wedges beside the pitch. Front field = 11 shot sectors in 5 rings:
+     Zone 1 (near, around the pitch), Middle (2), Outer (3), Boundary (4) and the band over the net (6).
+     Only Zone 1 and Zone 2 are DIC zones, the other rings are fixed. */
+  const GW = 757, GH = 892, MX = p => [GW - p[0], p[1]], C0 = [378.5, 125];
+  const IN_L = [[336, 36], [337, 86], [339, 106], [343, 124], [350, 132], [365, 132]];
+  const OUT_L = [[72, 182], [72, 355], [72, 528], [72, 700], [118, 832], [292, 832]];
+  const RAY_IN = IN_L.concat(IN_L.slice().reverse().map(MX)), RAY_OUT = OUT_L.concat(OUT_L.slice().reverse().map(MX));
+  const half = pts => pts.concat(pts.slice().reverse().map(MX));
+  const SHELLS = [
+    null,
+    half([[255, 0], [255, 290], [275, 340]]),
+    half([[175, 0], [175, 470], [205, 555]]),
+    half([[120, 0], [120, 598], [160, 703]]),
+    [[72, 0], [72, 832], [685, 832], [685, 0]]
+  ];
+  function segHit(a, b, c, d) {
+    const r = [b[0] - a[0], b[1] - a[1]], s = [d[0] - c[0], d[1] - c[1]], den = r[0] * s[1] - r[1] * s[0];
+    if (Math.abs(den) < 1e-9) return null;
+    const t = ((c[0] - a[0]) * s[1] - (c[1] - a[1]) * s[0]) / den, u = ((c[0] - a[0]) * r[1] - (c[1] - a[1]) * r[0]) / den, e = 1e-6;
+    return t >= -e && t <= 1 + e && u >= -e && u <= 1 + e ? { u, pt: [a[0] + r[0] * t, a[1] + r[1] * t] } : null;
+  }
+  const pos = (poly, i, pt) => { /* position of a point on a polyline (segment index + fraction) */
+    let best = null;
+    for (let k = 0; k < poly.length - 1; k++) {
+      const a = poly[k], b = poly[k + 1], dx = b[0] - a[0], dy = b[1] - a[1], L = dx * dx + dy * dy;
+      const u = Math.max(0, Math.min(1, ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dy) / L)), q = [a[0] + dx * u, a[1] + dy * u], dd = Math.hypot(q[0] - pt[0], q[1] - pt[1]);
+      if (!best || dd < best.d) best = { d: dd, p: k + u };
+    }
+    return best.p;
+  };
+  const at = (poly, p) => { const k = Math.min(poly.length - 2, Math.floor(p + 1e-9)), u = p - k; return [poly[k][0] + (poly[k + 1][0] - poly[k][0]) * u, poly[k][1] + (poly[k + 1][1] - poly[k][1]) * u]; };
+  /* hits[r][k] = position of ray k on shell r (shell 0 = the inner points) */
+  const HIT = [];
+  const INNER = RAY_IN.slice();
+  HIT[0] = RAY_IN.map((_, k) => k);
+  for (let r = 1; r <= 4; r++) HIT[r] = RAY_IN.map((a, k) => {
+    const sh = SHELLS[r]; let found = null;
+    for (let j = 0; j < sh.length - 1 && !found; j++) found = segHit(a, RAY_OUT[k], sh[j], sh[j + 1]);
+    return found ? pos(sh, 0, found.pt) : pos(sh, 0, RAY_OUT[k]);
+  });
+  const subPath = (r, k) => { /* points of shell r between ray k and ray k+1 */
+    if (r === 0) return [INNER[k], INNER[k + 1]];
+    const sh = SHELLS[r], a = HIT[r][k], b = HIT[r][k + 1], out = [at(sh, a)];
+    for (let i = Math.floor(a + 1e-9) + 1; i < b - 1e-9; i++) out.push(sh[i]);
+    out.push(at(sh, b)); return out;
+  };
+  const toBand = p => [p[0] <= 72.5 ? 0 : p[0] >= 684.5 ? GW : p[0], p[1] >= 831.5 ? GH : p[1]];
+  const CELL = {}; /* 'r,k' -> {pts, lab, area} */
+  function area(p) { let s = 0; for (let i = 0; i < p.length; i++) { const a = p[i], b = p[(i + 1) % p.length]; s += a[0] * b[1] - b[0] * a[1]; } return s / 2; }
+  function centroid(p) { const A2 = area(p); let x = 0, y = 0; for (let i = 0; i < p.length; i++) { const a = p[i], b = p[(i + 1) % p.length], f = a[0] * b[1] - b[0] * a[1]; x += (a[0] + b[0]) * f; y += (a[1] + b[1]) * f; } return [x / (6 * A2), y / (6 * A2)]; }
+  for (let k = 0; k < 11; k++) for (let r = 0; r < 5; r++) {
+    let pts, lab;
+    if (r < 4) { pts = subPath(r, k).concat(subPath(r + 1, k).slice().reverse()); lab = centroid(pts); }
+    else {
+      const inner = subPath(4, k), outer = inner.map(toBand); pts = inner.concat(outer.slice().reverse());
+      let bi = 0, bl = -1; for (let i = 0; i < inner.length - 1; i++) { const l = Math.hypot(inner[i + 1][0] - inner[i][0], inner[i + 1][1] - inner[i][1]); if (l > bl) { bl = l; bi = i; } }
+      const m1 = [(inner[bi][0] + inner[bi + 1][0]) / 2, (inner[bi][1] + inner[bi + 1][1]) / 2], m2 = toBand(m1); lab = [(m1[0] + m2[0]) / 2, (m1[1] + m2[1]) / 2];
+    }
+    CELL[r + ',' + k] = { pts, lab, area: Math.abs(area(pts)) };
+  }
+  const RAYDIR = RAY_IN.map((a, k) => { const b = RAY_OUT[k], d = Math.hypot(b[0] - a[0], b[1] - a[1]); return [(b[0] - a[0]) / d, (b[1] - a[1]) / d]; });
+  const W2L = [[72, 0], [336, 0], [336, 36], [72, 182]], W2R = W2L.map(MX);
+  const fmt = pts => pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  A.groundSVG = function (zones, o) {
+    o = o || {};
+    const labelOf = (z, small) => {
+      if (o.heat) return o.heatText && o.heatText[z.id] != null ? String(o.heatText[z.id]) : '';
+      if (z.off) return 'off';
+      if (small) return String(z.runs);
+      return z.runs + (z.rotate === 'change' ? '↻' : '');
+    };
+    const isSel = z => o.sel === z.id || (o.sel === 'z1' && z.ring === 0 && z.id !== 'z2');
+    const polyFor = (z, pts, cls) => {
+      const selc = isSel(z) ? (o.heat ? ' selk' : ' sel') : '';
+      const fill = o.heat ? ' style="fill:' + (o.heat[z.id] != null ? heatColor(o.heat[z.id]) : '#fff') + '"' : '';
+      return '<polygon class="zn ' + cls + selc + (z.off ? ' off' : '') + '" points="' + fmt(pts) + '"' + fill + ' data-a="' + (o.act || 'zone') + '" data-z="' + z.id + '"/>';
+    };
+    const text = (z, p, cls, small) => '<text class="zt ' + cls + '" data-t="' + z.id + '" x="' + p[0].toFixed(1) + '" y="' + p[1].toFixed(1) + '"' + (o.heat ? ' style="fill:#000"' : '') + '>' + esc(labelOf(z, small)) + '</text>';
+    let s = '<svg class="ground' + (o.heat ? ' heat' : '') + '" viewBox="0 0 ' + GW + ' ' + (GH + 26) + '" role="img" aria-label="Box cricket ground zones">', txt = '', names = '';
+    zones.forEach(z => {
+      if (z.id === 'z2') {
+        s += polyFor(z, W2L, 'zb2') + polyFor(z, W2R, 'zb2');
+        [[196, 40, 68], [GW - 196, 40, 68]].forEach(q => { txt += text(z, [q[0], q[1]], 'zb'); txt += '<text class="zn-name" x="' + q[0] + '" y="' + q[2] + '">' + (o.heat ? '' : 'ZONE 2') + '</text>'; });
+      } else if (z.ring >= 0 && z.ring <= 4 && z.sec < 11) {
+        const c = CELL[z.ring + ',' + z.sec]; if (!c) return;
+        s += polyFor(z, c.pts, 'r' + z.ring);
+        if (o.heat || o.cfg || c.area > 2200) txt += text(z, c.lab, 'r' + z.ring, !o.heat && c.area < 4200);
+        if (o.names && z.ring === 1) {
+          const d1 = RAYDIR[z.sec], d2 = RAYDIR[z.sec + 1]; let ang = Math.atan2(d1[1] + d2[1], d1[0] + d2[0]) * 180 / Math.PI; if (ang > 90) ang -= 180; if (ang < -90) ang += 180;
+          names += '<text class="nm" transform="translate(' + c.lab[0].toFixed(1) + ' ' + c.lab[1].toFixed(1) + ') rotate(' + ang.toFixed(1) + ')">' + esc(z.label) + '</text>';
+        }
+      }
+    });
+    s += txt.replace(/<text class="zt r[012]"[^>]*>[^<]*<\/text>/g, m => o.names ? '' : m) + names;
+    if (!o.heat) s += '<text class="zn-name" x="' + GW / 2 + '" y="300">ZONE 1</text>';
+    s += '<polyline class="box" points="72,182 72,832 685,832 685,182"/>';
+    s += '<rect class="pitch" x="358" y="2" width="41" height="130" rx="14"/><line class="stump" x1="363" x2="394" y1="16" y2="16"/><line class="stump" x1="363" x2="394" y1="118" y2="118"/>';
+    s += '<text class="lbl" x="' + GW / 2 + '" y="912">▼ bowler end</text></svg>';
+    return s;
+  };
+
+  /* ---------- 4 / 6 celebration ---------- */
+  A.celebrate = function (n) {
+    const el = document.createElement('div'); el.className = 'cele c' + n;
+    let h = '';
+    if (n === 4) h += '<div class="ring"></div><div class="ring"></div><div class="ring"></div>';
+    const cols = n === 6 ? ['#FFD400', '#fff', '#FFE45C'] : ['#000', '#fff'];
+    const pieces = n === 6 ? 46 : 22;
+    for (let i = 0; i < pieces; i++) h += '<i class="cf" style="left:' + Math.random() * 100 + '%;background:' + cols[i % cols.length] + ';animation-delay:' + (Math.random() * .6).toFixed(2) + 's;animation-duration:' + (1.2 + Math.random()).toFixed(2) + 's"></i>';
+    h += '<div class="txt">' + (n === 6 ? 'SIX!' : 'FOUR!') + '</div>';
+    el.innerHTML = h; document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1950);
+    if (A.db.sound) A.cheer(n === 6);
+    try { navigator.vibrate && navigator.vibrate(n === 6 ? [60, 40, 120] : 70); } catch (e) { }
+  };
+  A.cheer = function (six) {
+    try {
+      const C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      const ctx = A._ac || (A._ac = new C()); if (ctx.state === 'suspended') ctx.resume();
+      const dur = six ? 1.3 : 0.8, len = Math.floor(ctx.sampleRate * dur), buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1.5);
+      const src = ctx.createBufferSource(); src.buffer = buf;
+      const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 900; f.Q.value = .7;
+      const g = ctx.createGain(); g.gain.value = six ? .35 : .25;
+      src.connect(f); f.connect(g); g.connect(ctx.destination); src.start();
+      const o = ctx.createOscillator(); const og = ctx.createGain(); o.type = 'square';
+      o.frequency.setValueAtTime(six ? 440 : 523, ctx.currentTime); o.frequency.linearRampToValueAtTime(six ? 880 : 784, ctx.currentTime + .25);
+      og.gain.setValueAtTime(.08, ctx.currentTime); og.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .4);
+      o.connect(og); og.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + .45);
+    } catch (e) { }
+  };
+
+  /* ---------- modal wrapper ---------- */
+  A.sheet = (title, body) => '<div class="modal"><div class="sheet"><button class="close" data-a="closeModal">✕</button><h2>' + esc(title) + '</h2>' + body + '</div></div>';
+  A.actions.closeModal = () => { ui.modal = null; A.render(); };
+  A.actions.back = () => { if (ui.stack.length) { try { history.back(); } catch (e) { A.back(); } } else A.back(); };
+  A.actions.theme = () => { A.db.theme = A.db.theme === 'dark' ? 'light' : 'dark'; A.save(); A.render(); };
+  A.actions.nav = el => { ui.stack = []; ui.view = el.dataset.v === 'more' ? 'settings' : el.dataset.v; ui.params = {}; ui.modal = null; A.render(); window.scrollTo(0, 0); };
+  A.modalHTML = function () { const f = A.modals[ui.modal.type]; return f ? f(ui.modal) : ''; };
+  A.modals = {};
+
+  window.addEventListener('storage', e => { if (e.key === KEY) { try { A.db = JSON.parse(e.newValue); db = A.db; if (ui.view === 'board') A.render(); } catch (x) { } } });
+})();
+</script>
+<script>/* Live scoring screen, DIC ground tap scoring, wicket / correction flows */
+(function () {
+  'use strict';
+  const A = window.A, CE = A.CE, esc = A.esc, ui = A.ui;
+
+  A.ctx = function () {
+    const m = A.getMatch(); if (!m) return null;
+    const ev = CE.evaluate(m);
+    const inn = ev.current >= 0 ? m.innings[ev.current] : null;
+    return { m, ev, inn, st: inn ? CE.replay(m, inn) : null };
+  };
+  const pname = (m, id) => id == null ? '-' : CE.playerName(m, id);
+  const teamLogo = (t, cls) => '<span class="av ' + (cls || '') + '" style="background:' + esc(t.color || '#FFD400') + '">' + esc(A.initials(t.name)) + '</span>';
+  A.teamLogo = teamLogo;
+
+  function ballChip(b) {
+    const c = b.wicket ? 'w' : b.six ? 's' : b.four ? 'f' : /^(Wd|Nb)/.test(b.label) ? 'x' : '';
+    return '<span class="ball ' + c + '">' + esc(b.label) + '</span>';
+  }
+  A.ballChip = ballChip;
+
+  A.views.live = function () {
+    const c = A.ctx();
+    if (!c) return A.page('Live scoring', '<div class="empty">No active match.<br><br><button class="btn" data-a="newMatch">Create a match</button></div>', 'home');
+    const { m, ev, inn, st } = c, R = CE.rulesOf(m), bpo = R.ballsPerOver;
+
+    if (ev.status === 'completed') {
+      m.status = 'completed';
+      return A.page(m.name, '<div class="hero c"><div class="tag k">Match complete</div><h2>' + esc(ev.text) + '</h2></div>' + scoreLines(m) +
+        '<button class="btn" data-a="open" data-v="summary" data-id="' + m.id + '">Match summary</button><div style="height:8px"></div>' +
+        '<button class="btn k" data-a="open" data-v="scorecard" data-id="' + m.id + '">Full scorecard</button>', 'home');
+    }
+    if (!inn) {
+      const first = m.innings.length ? m.innings[m.innings.length - 1] : null;
+      let body = '';
+      if (m.innings.length) body += scoreLines(m);
+      const label = ev.next === 'startSecond' ? 'Start 2nd innings' : ev.next === 'superOver' ? 'Start SUPER OVER' : 'Start 1st innings';
+      if (ev.next === 'startSecond') { const f = CE.replay(m, m.innings[ev.pairFirst]); body += '<div class="hero c"><div class="tag k">Innings break</div><h2>' + esc(m.teams[ev.nextBat].name) + ' need ' + (f.runs + 1) + ' to win</h2><div>from ' + (m.innings[ev.pairFirst].overs) + ' overs</div></div>'; }
+      else if (ev.next === 'superOver') body += '<div class="hero c"><div class="tag k">Scores level</div><h2>Super over!</h2><div>' + esc(m.teams[ev.nextBat].name) + ' bat first</div></div>';
+      else body += '<div class="hero c"><h2>' + esc(m.teams[ev.nextBat].name) + ' to bat</h2></div>';
+      body += '<button class="btn" data-a="startNext">' + label + '</button>' + (m.innings.length && A.canScore() ? '<div style="height:8px"></div><button class="btn ghost" data-a="undoPrev">Undo last ball</button>' : '');
+      return A.page(m.name, body, 'home');
+    }
+
+    // forced prompts
+    if (!ui.modal) {
+      if (st.needOpeners) ui.modal = { type: 'openers' };
+      else if (st.needBatter) ui.modal = { type: 'batter' };
+      else if (st.needBowler) ui.modal = { type: 'bowler' };
+    }
+    const batT = m.teams[inn.batting], bowlT = m.teams[inn.bowling];
+    const tl = st.timeline, curIdx = Math.floor(st.legal / bpo);
+    let overBalls = tl.filter(t => t.over === curIdx), overLbl = 'This over';
+    if (!overBalls.length && curIdx > 0) { overBalls = tl.filter(t => t.over === curIdx - 1); overLbl = 'Last over'; }
+    const sBat = st.batters[st.striker], nBat = st.batters[st.nonStriker], bw = st.bowlers[st.bowler] || st.bowlers[st.lastBowler];
+    const batLine = (b, id, star) => b || id != null ? '<div class="row sp"><span class="b">' + esc(pname(m, id)) + (star ? ' <span class="tag">*</span>' : '') + '</span><span><b>' + (b ? b.runs : 0) + '</b> (' + (b ? b.balls : 0) + ') <span class="mut">4s ' + (b ? b.fours : 0) + ' 6s ' + (b ? b.sixes : 0) + '</span></span></div>' : '<div class="row sp mut"><span>-</span></div>';
+    const tgt = st.target ? '<div class="sub">Target <b>' + st.target + '</b> · need <b>' + st.runsNeeded + '</b> from <b>' + st.ballsLeft + '</b> balls · RRR <b>' + (st.rrr == null ? '-' : A.fmt2(st.rrr)) + '</b></div>' : '';
+    let h = '<div class="score-head"><div class="row sp"><span class="tm">' + esc(batT.name) + (inn.type === 'super' ? ' · SUPER OVER' : '') + '</span>' + (st.freeHit ? '<span class="fh">FREE HIT</span>' : '') + '</div>' +
+      '<div class="big">' + st.runs + '/' + st.wkts + ' <small>(' + st.oversText + '/' + inn.overs + ')</small></div>' +
+      '<div class="sub">CRR <b>' + A.fmt2(st.crr) + '</b> · Extras <b>' + st.extrasTotal + '</b> · P\'ship <b>' + st.part.runs + '</b> (' + st.part.balls + ')</div>' + tgt + '</div>';
+    h += '<div class="card">' + batLine(sBat, st.striker, true) + batLine(nBat, st.nonStriker, false) +
+      '<hr style="border:0;border-top:1px solid var(--soft)"><div class="row sp"><span class="b">' + esc(bw ? pname(m, bw.id) : '-') + ' <span class="mut">(' + esc(bowlT.name) + ')</span></span><span>' + (bw ? CE.oversStr(bw.balls, bpo) + '-' + bw.maidens + '-' + bw.runs + '-' + bw.wkts : '') + '</span></div></div>';
+    h += '<div class="mut b">' + overLbl + '</div><div class="balls">' + (overBalls.map(ballChip).join('') || '<span class="mut">No balls yet</span>') + '</div>';
+
+    const dis = !A.canScore() ? ' disabled' : '';
+    h += '<div class="seg"><button class="' + (A.db.mode === 'buttons' ? 'on' : '') + '" data-a="mode" data-v="buttons">Buttons</button><button class="' + (A.db.mode === 'dic' ? 'on' : '') + '" data-a="mode" data-v="dic">DIC Ground</button></div>';
+    h += '<div class="mods">' + [['wd', 'Wide'], ['nb', 'No-ball'], ['b', 'Bye'], ['lb', 'Leg-bye']].map(x => '<button class="chip ' + (ui.mod === x[0] ? 'on' : '') + '" data-a="mod" data-v="' + x[0] + '"' + dis + '>' + x[1] + '</button>').join('') + '</div>';
+    if (ui.mod) h += '<div class="mut c" style="margin:4px 0">' + ({ wd: 'Wide', nb: 'No-ball', b: 'Bye', lb: 'Leg-bye' })[ui.mod] + ' selected: pick the runs ' + (ui.mod === 'wd' ? '(0 = just the penalty)' : ui.mod === 'nb' ? '(runs off the bat)' : '') + '</div>';
+
+    if (A.db.mode === 'dic') {
+      h += '<div class="row sp" style="margin-bottom:4px"><span class="mut">Batter at top · bowler end at bottom</span><button class="chip on" style="margin:0;flex:none" data-a="names">' + (ui.names ? 'Show runs' : 'Show shot names') + '</button></div>' + A.groundSVG(m.dic.zones, { sel: ui.zoneSel, names: ui.names });
+      if (ui.zoneSel) {
+        const z = m.dic.zones.find(z => z.id === ui.zoneSel), o = ui.zoneOv;
+        h += '<div class="zinfo"><div class="row sp"><div class="z">' + esc(z.label) + (z.ring < 5 ? ' <small>(' + CE.RINGS[z.ring].split(' (')[0] + ')</small>' : '') + ' · ' + o.runs + ' run' + (o.runs === 1 ? '' : 's') + '</div><div>' + (o.rotate ? 'Strike changes ↻' : 'Same striker') + (o.runs !== z.runs || o.rotate !== (z.rotate === 'change') ? ' <span class="tag k">override</span>' : '') + '</div></div>' +
+          '<div class="row" style="margin-top:6px"><button data-a="zrun" data-d="-1">−1</button><button data-a="zrun" data-d="1">+1</button><button data-a="zrot">' + (o.rotate ? 'Strike ↻' : 'Strike =') + '</button></div>' +
+          '<button class="btn k" style="margin-top:6px;padding:11px" data-a="zconfirm"' + dis + '>Confirm ' + o.runs + (o.rotate ? ' · change strike' : '') + '</button></div>';
+      } else h += '<div class="mut c">Tap where the ball went. Zone 1 = near ring, Zone 2 = grey area</div>';
+      h += '<div class="pad" style="grid-template-columns:1fr"><button class="pbtn dot" data-a="run" data-v="0"' + dis + '>• Dot ball</button></div>';
+    } else {
+      h += '<div class="pad">' + [0, 1, 2, 3, 4, 6].map(r => '<button class="pbtn r' + r + (r === 0 ? ' dot' : '') + '" data-a="run" data-v="' + r + '"' + dis + '>' + r + '</button>').join('') + '</div>';
+    }
+    h += '<div class="act"><button class="wk" data-a="wicket"' + dis + '>Wicket</button><button data-a="undo"' + dis + '>Undo</button><button data-a="correct"' + dis + '>Correct</button></div>';
+    if (R.special && R.special.length) h += '<div class="mut b">Local rule shots</div><div>' + R.special.map((s, i) => '<button class="chip" data-a="special" data-i="' + i + '"' + dis + '>' + esc(s.name) + ': ' + (s.out ? 'OUT' : s.runs + (s.rotate === 'change' ? '↻' : '')) + '</button>').join('') + '</div>';
+    h += '<div class="grid2" style="margin-top:8px"><button data-a="menu">⋯ More</button><button data-a="open" data-v="board" data-id="' + m.id + '">Live board</button></div>';
+    if (st.ended) h += '<div class="hero c" style="margin-top:12px"><b>' + esc(st.endReason) + '</b></div><button class="btn" data-a="startNext">Continue</button>';
+    return A.page(m.name, h, null, { keepScroll: true, right: '<button data-a="open" data-v="scorecard" data-id="' + m.id + '">Card</button>' });
+  };
+
+  function scoreLines(m) {
+    return '<div class="card">' + m.innings.map(inn => { const s = CE.replay(m, inn); return '<div class="row sp"><b>' + esc(m.teams[inn.batting].name) + (inn.type === 'super' ? ' (SO)' : '') + '</b><span><b>' + s.runs + '/' + s.wkts + '</b> (' + s.oversText + ')</span></div>'; }).join('') + '</div>';
+  }
+  A.scoreLines = scoreLines;
+
+  /* ---------- scoring ---------- */
+  function commitScore(o) {
+    const c = A.ctx(); if (!c || !c.inn) return;
+    if (!A.canScore()) return A.toast('View-only role');
+    const { m, inn, st } = c;
+    if (st.ended || st.needOpeners || st.needBatter || st.needBowler) return;
+    if (o.extra === undefined) o.extra = ui.mod;
+    const e = CE.addBall(m, inn, o);
+    ui.mod = null; ui.zoneSel = null; ui.zoneOv = null;
+    const ev = CE.evaluate(m);
+    m.status = ev.status === 'completed' ? 'completed' : 'live'; m.updated = Date.now();
+    A.save();
+    const bat = (!e.extra || e.extra === 'nb') ? e.runs : 0;
+    A.render();
+    if (bat === 4 || bat === 6) A.celebrate(bat);
+    else if (e.wicket) A.toast('WICKET!');
+  }
+  A.actions.names = () => { ui.names = !ui.names; A.render(); };
+  A.actions.mode = el => { A.db.mode = el.dataset.v; ui.zoneSel = null; A.save(); A.render(); };
+  A.actions.mod = el => { ui.mod = ui.mod === el.dataset.v ? null : el.dataset.v; A.render(); };
+  A.actions.run = el => commitScore({ runs: +el.dataset.v });
+  A.actions.zone = el => {
+    const c = A.ctx(); if (!c) return;
+    const z = c.m.dic.zones.find(z => z.id === el.dataset.z);
+    if (z.off) return A.toast(z.label + ' is switched off for this match');
+    ui.zoneSel = z.id; ui.zoneOv = { runs: z.runs, rotate: z.rotate === 'change' };
+    if (CE.rulesOf(c.m).autoCommitZone) return A.actions.zconfirm();
+    A.render();
+  };
+  A.actions.zrun = el => { ui.zoneOv.runs = Math.max(0, Math.min(6, ui.zoneOv.runs + (+el.dataset.d))); A.render(); };
+  A.actions.zrot = () => { ui.zoneOv.rotate = !ui.zoneOv.rotate; A.render(); };
+  A.actions.zconfirm = () => {
+    const c = A.ctx(); if (!c || !ui.zoneSel) return;
+    const z = c.m.dic.zones.find(z => z.id === ui.zoneSel), o = ui.zoneOv;
+    commitScore({ runs: o.runs, rotate: o.rotate, zone: z.id, zoneLabel: z.label, manual: o.runs !== z.runs || o.rotate !== (z.rotate === 'change') });
+  };
+  A.actions.special = el => {
+    const c = A.ctx(); const s = CE.rulesOf(c.m).special[+el.dataset.i];
+    if (s.out) {
+      if (c.st.freeHit) return A.toast('Free hit: only run out');
+      return commitScore({ runs: 0, special: s.name, wicket: { kind: s.name, out: c.st.striker, bowlerCredit: false } });
+    }
+    commitScore({ runs: s.runs, rotate: s.rotate === 'change', special: s.name });
+  };
+  A.actions.undo = () => {
+    const c = A.ctx(); if (!c || !c.inn) return;
+    if (!A.canScore()) return A.toast('View-only role');
+    let r = CE.undo(c.m, c.inn);
+    if (!r || !c.inn.events.some(e => e.t === 'ball')) {
+      const idx = c.m.innings.indexOf(c.inn);
+      if (!r && idx > 0 && !c.inn.events.some(e => e.t === 'ball')) { // empty new innings: go back to the previous one
+        c.m.innings.splice(idx, 1); r = CE.undo(c.m, c.m.innings[idx - 1]);
+      }
+    }
+    if (!r) { A.toast('Nothing to undo'); return; }
+    c.m.status = 'live'; A.save(); A.toast('Last ball undone'); A.render();
+  };
+  A.actions.startNext = () => {
+    const c = A.ctx(); if (!c) return;
+    if (c.inn) { c.inn.events.push({ t: 'end' }); }
+    const m = c.m, ev = CE.evaluate(m);
+    if (ev.status === 'completed') { A.save(); return A.render(); }
+    let o = {};
+    if (ev.next === 'startSecond') o = { chaseOf: ev.pairFirst, type: m.innings[ev.pairFirst].type };
+    else if (ev.next === 'superOver') o = { type: 'super' };
+    else if (!ev.next) { A.save(); return A.render(); }
+    CE.newInnings(m, ev.nextBat, o); A.save(); A.render();
+  };
+  A.actions.undoPrev = () => {
+    const m = A.getMatch(); const inn = m && m.innings[m.innings.length - 1]; if (!inn) return;
+    if (CE.undo(m, inn)) { m.status = 'live'; A.save(); A.toast('Last ball undone'); A.render(); }
+  };
+  A.actions.leaveLive = () => { ui.modal = null; ui.view = 'home'; ui.stack = []; A.render(); };
+
+  /* ---------- modals ---------- */
+  const forced = (title, body) => '<div class="modal"><div class="sheet"><h2>' + esc(title) + '</h2>' + body + '<button class="btn ghost" data-a="leaveLive" style="margin-top:10px">Leave scoring (saved)</button></div></div>';
+
+  A.modals.openers = function () {
+    const { m, inn } = A.ctx();
+    const bat = m.teams[inn.batting], bowl = m.teams[inn.bowling];
+    const opt = (t, ids, sel) => ids.map((id, i) => '<option value="' + id + '"' + (i === sel ? ' selected' : '') + '>' + esc(pname(m, id)) + '</option>').join('');
+    return forced('Opening pair & first bowler',
+      '<label>Striker (' + esc(bat.name) + ')</label><select id="op_s">' + opt(bat, inn.squad, 0) + '</select>' +
+      '<label>Non-striker</label><select id="op_n">' + opt(bat, inn.squad, 1) + '</select>' +
+      '<label>Opening bowler (' + esc(bowl.name) + ')</label><select id="op_b">' + opt(bowl, bowl.xi, 0) + '</select>' +
+      '<button class="btn" data-a="openersOk">Start scoring</button>');
+  };
+  A.actions.openersOk = () => {
+    const c = A.ctx(); const s = document.getElementById('op_s').value, n = document.getElementById('op_n').value, b = document.getElementById('op_b').value;
+    if (s === n) return A.toast('Pick two different batters');
+    c.inn.events.push({ t: 'open', striker: s, nonStriker: n }, { t: 'bowler', id: b });
+    ui.modal = null; A.save(); A.render();
+  };
+  A.modals.batter = function () {
+    const { m, inn, st } = A.ctx();
+    return forced('New batter', st.availBatters.map(id => '<button class="btn ghost" style="margin-bottom:8px" data-a="pickBatter" data-id="' + id + '">' + esc(pname(m, id)) + '</button>').join(''));
+  };
+  A.actions.pickBatter = el => { const c = A.ctx(); c.inn.events.push({ t: 'batter', id: el.dataset.id }); ui.modal = null; A.save(); A.render(); };
+  A.modals.bowler = function () {
+    const { m, inn, st } = A.ctx(), bowl = m.teams[inn.bowling], R = CE.rulesOf(m);
+    return forced('Select bowler for next over', bowl.xi.map(id => {
+      const ok = CE.bowlerAllowed(m, st, id), b = st.bowlers[id];
+      return '<button class="btn ghost" style="margin-bottom:8px;text-align:left"' + (ok ? '' : ' disabled') + ' data-a="pickBowler" data-id="' + id + '">' + esc(pname(m, id)) + ' <span class="mut">' + (b ? CE.oversStr(b.balls, R.ballsPerOver) + ' ov · ' + b.runs + 'r · ' + b.wkts + 'w' : 'new') + (id === st.lastBowler ? ' · bowled last over' : !ok ? ' · quota done' : '') + '</span></button>';
+    }).join(''));
+  };
+  A.actions.pickBowler = el => { const c = A.ctx(); c.inn.events.push({ t: 'bowler', id: el.dataset.id }); ui.modal = null; A.save(); A.render(); };
+
+  A.actions.wicket = () => {
+    const c = A.ctx(); const R = CE.rulesOf(c.m);
+    const kinds = CE.DISMISSALS.filter(d => R.dismissals[d.k] !== false && (!c.st.freeHit || d.k === 'runOut'));
+    ui.modal = { type: 'wicket', kind: kinds[0] ? kinds[0].k : 'runOut', out: 's', runs: 0, fielder: '' };
+    A.render();
+  };
+  A.modals.wicket = function (mo) {
+    const { m, st } = A.ctx(), R = CE.rulesOf(m);
+    const kinds = CE.DISMISSALS.filter(d => R.dismissals[d.k] !== false && (!st.freeHit || d.k === 'runOut'));
+    let h = st.freeHit ? '<div class="fh" style="display:inline-block;margin-bottom:8px">FREE HIT: only run out</div>' : '';
+    h += '<label>How out</label><div>' + kinds.map(k => '<button class="chip ' + (mo.kind === k.k ? 'on' : '') + '" data-a="wk" data-f="kind" data-v="' + k.k + '">' + esc(k.label) + '</button>').join('') + '</div>';
+    if (mo.kind === 'runOut') {
+      h += '<label>Who is out</label><div><button class="chip ' + (mo.out === 's' ? 'on' : '') + '" data-a="wk" data-f="out" data-v="s">' + esc(pname(m, st.striker)) + ' (striker)</button>' +
+        (st.nonStriker != null ? '<button class="chip ' + (mo.out === 'n' ? 'on' : '') + '" data-a="wk" data-f="out" data-v="n">' + esc(pname(m, st.nonStriker)) + '</button>' : '') + '</div>';
+      h += '<label>Runs completed on this ball</label><div>' + [0, 1, 2, 3].map(r => '<button class="chip ' + (mo.runs === r ? 'on' : '') + '" data-a="wk" data-f="runs" data-v="' + r + '">' + r + '</button>').join('') + '</div>';
+    }
+    h += '<label>Fielder (optional)</label><input data-b="ui.modal.fielder" value="' + esc(mo.fielder) + '" placeholder="Name">';
+    if (ui.mod) h += '<div class="mut">Applied with: ' + ({ wd: 'Wide', nb: 'No-ball', b: 'Bye', lb: 'Leg-bye' })[ui.mod] + '</div>';
+    return A.sheet('Wicket', h + '<button class="btn danger" data-a="wkOk">Confirm wicket</button>');
+  };
+  A.actions.wk = el => { const f = el.dataset.f; ui.modal[f] = f === 'runs' ? +el.dataset.v : el.dataset.v; A.render(); };
+  A.actions.wkOk = () => {
+    const c = A.ctx(), mo = ui.modal, d = CE.DISMISSALS.find(d => d.k === mo.kind);
+    const out = mo.kind === 'runOut' && mo.out === 'n' ? c.st.nonStriker : c.st.striker;
+    const runs = mo.kind === 'runOut' ? mo.runs : 0;
+    ui.modal = null;
+    commitScore({ runs, wicket: { kind: mo.kind, out, bowlerCredit: !!d.bowler, fielder: mo.fielder } });
+  };
+
+  A.actions.menu = () => { ui.modal = { type: 'menu' }; A.render(); };
+  A.modals.menu = function () {
+    const c = A.ctx(), R = CE.rulesOf(c.m);
+    return A.sheet('Match options',
+      '<div class="grid2"><button class="btn ghost" data-a="retireOpen">Retire batter</button><button class="btn ghost" data-a="endInn">End innings</button>' +
+      '<button class="btn ghost" data-a="open" data-v="scorecard" data-id="' + c.m.id + '">Scorecard</button><button class="btn ghost" data-a="open" data-v="analytics" data-id="' + c.m.id + '">Analytics</button>' +
+      '<button class="btn ghost" data-a="rulesInfo">Match rules</button><button class="btn ghost" data-a="leaveLive">Leave</button></div>');
+  };
+  A.actions.rulesInfo = () => {
+    const c = A.ctx(), R = CE.rulesOf(c.m);
+    const rows = [['Balls per over', R.ballsPerOver], ['Wide', R.wideRuns + ' run' + (R.wideReball ? ' + re-bowl' : ' (counts as ball)')], ['No-ball', R.noBallRuns + ' run' + (R.noBallReball ? ' + re-bowl' : '') + (R.freeHit ? ' + free hit' : '')], ['Last man batting', R.lastManBatting ? 'Yes' : 'No'], ['Max overs / bowler', R.maxOversPerBowler || 'No limit'], ['Super over', R.superOver ? 'Yes' : 'No'], ['Dismissals', CE.DISMISSALS.filter(d => R.dismissals[d.k] !== false).map(d => d.label).join(', ')], ['DIC preset', c.m.dic.name + (c.m.turf ? ' (' + c.m.turf + ')' : '')]];
+    ui.modal = { type: 'info', title: 'Match rules', html: '<table>' + rows.map(r => '<tr><td>' + esc(r[0]) + '</td><td class="r">' + esc(r[1]) + '</td></tr>').join('') + '</table>' + (R.notes ? '<p>' + esc(R.notes) + '</p>' : '') };
+    A.render();
+  };
+  A.modals.info = mo => A.sheet(mo.title, mo.html);
+  A.actions.endInn = () => { const c = A.ctx(); if (!c.inn) return; c.inn.events.push({ t: 'end' }); ui.modal = null; A.save(); A.render(); };
+
+  A.actions.retireOpen = () => { ui.modal = { type: 'retire', who: 's' }; A.render(); };
+  A.modals.retire = function (mo) {
+    const { m, st } = A.ctx();
+    return A.sheet('Retire batter',
+      '<label>Who retires</label><div><button class="chip ' + (mo.who === 's' ? 'on' : '') + '" data-a="rt" data-f="who" data-v="s">' + esc(pname(m, st.striker)) + '</button>' +
+      (st.nonStriker != null ? '<button class="chip ' + (mo.who === 'n' ? 'on' : '') + '" data-a="rt" data-f="who" data-v="n">' + esc(pname(m, st.nonStriker)) + '</button>' : '') + '</div>' +
+      '<label>Replacement</label><select data-b="ui.modal.rep"><option value="">None</option>' + st.availBatters.map(id => '<option value="' + id + '">' + esc(pname(m, id)) + '</option>').join('') + '</select>' +
+      '<button class="btn" data-a="rtOk">Confirm</button>');
+  };
+  A.actions.rt = el => { ui.modal[el.dataset.f] = el.dataset.v; A.render(); };
+  A.actions.rtOk = () => {
+    const c = A.ctx(), mo = ui.modal; const out = mo.who === 'n' ? c.st.nonStriker : c.st.striker;
+    c.inn.events.push({ t: 'retire', out, in: mo.rep || null }); ui.modal = null; A.save(); A.render();
+  };
+
+  /* manual correction */
+  A.actions.correct = () => { ui.modal = { type: 'correct', id: null }; A.render(); };
+  A.modals.correct = function (mo) {
+    const { m, inn, st } = A.ctx();
+    const last = st.timeline.slice(-12);
+    let h = '<div class="mut">Pick a delivery to correct (all changes are logged in the audit history).</div><div class="balls">' +
+      last.map(b => '<button class="ball ' + (mo.id === b.id ? 'f' : '') + '" data-a="corPick" data-id="' + b.id + '">' + esc(b.label) + '</button>').join('') + '</div>';
+    if (mo.id) {
+      h += '<label>Runs (' + (mo.extra === 'wd' ? 'extra runs' : mo.extra === 'b' || mo.extra === 'lb' ? 'byes' : 'off the bat') + ')</label><div>' + [0, 1, 2, 3, 4, 5, 6].map(r => '<button class="chip ' + (mo.runs === r ? 'on' : '') + '" data-a="cor" data-f="runs" data-v="' + r + '">' + r + '</button>').join('') + '</div>' +
+        '<label>Type</label><div>' + [['', 'Normal'], ['wd', 'Wide'], ['nb', 'No-ball'], ['b', 'Bye'], ['lb', 'Leg-bye']].map(x => '<button class="chip ' + ((mo.extra || '') === x[0] ? 'on' : '') + '" data-a="cor" data-f="extra" data-v="' + x[0] + '">' + x[1] + '</button>').join('') + '</div>' +
+        '<label>Strike after ball</label><div><button class="chip ' + (!mo.rotate ? 'on' : '') + '" data-a="cor" data-f="rotate" data-v="0">Same striker</button><button class="chip ' + (mo.rotate ? 'on' : '') + '" data-a="cor" data-f="rotate" data-v="1">Change strike</button></div>' +
+        (mo.hasW ? '<label>Wicket on this ball</label><div><button class="chip ' + (mo.keepW ? 'on' : '') + '" data-a="cor" data-f="keepW" data-v="1">Keep wicket</button><button class="chip ' + (!mo.keepW ? 'on' : '') + '" data-a="cor" data-f="keepW" data-v="0">Remove wicket</button></div>' : '') +
+        '<button class="btn" data-a="corOk">Save correction</button>';
+    }
+    return A.sheet('Manual correction', h);
+  };
+  A.actions.corPick = el => {
+    const c = A.ctx(); const e = c.inn.events.find(x => x.id === el.dataset.id);
+    ui.modal = { type: 'correct', id: e.id, runs: e.runs, extra: e.extra, rotate: e.rotate, hasW: !!e.wicket, keepW: !!e.wicket }; A.render();
+  };
+  A.actions.cor = el => { const f = el.dataset.f, v = el.dataset.v; ui.modal[f] = f === 'runs' ? +v : f === 'extra' ? (v || null) : f === 'rotate' || f === 'keepW' ? v === '1' : v; A.render(); };
+  A.actions.corOk = () => {
+    const c = A.ctx(), mo = ui.modal;
+    const patch = { runs: mo.runs, extra: mo.extra || null, rotate: mo.rotate };
+    if (mo.hasW && !mo.keepW) patch.wicket = null;
+    const before = JSON.stringify(c.inn.events);
+    CE.correctBall(c.m, c.inn, mo.id, patch);
+    const st = CE.replay(c.m, c.inn);
+    ui.modal = null; A.save(); A.render(); A.toast('Correction saved');
+  };
+})();
+</script>
+<script>/* Login, home, new-match wizard, teams, players */
+(function () {
+  'use strict';
+  const A = window.A, CE = A.CE, esc = A.esc, ui = A.ui, db = () => A.db;
+  const COLORS = ['#FFD400', '#ffffff', '#111111', '#FF8A00', '#d62828', '#1a8f3c', '#1565c0', '#8e24aa'];
+
+  A.actions.open = el => {
+    const id = el.dataset.id, v = el.dataset.v;
+    if (id) A.db.activeMatch = id;
+    A.save(); A.go(v, { id });
+  };
+  A.actions.openMatch = el => {
+    const m = A.matchById(el.dataset.id); A.db.activeMatch = m.id; A.save();
+    A.go(m.status === 'completed' ? 'summary' : 'live', { id: m.id });
+  };
+
+  /* ---------- login ---------- */
+  A.views.login = function () {
+    if (A.db.user) { ui.view = 'home'; return A.views.home(); }
+    return { html: '<div class="login"><div class="logo" style="width:64px;height:64px"></div><h1>Cric<br>Truf</h1><p style="color:#fff">Tennis-ball &amp; turf cricket scoring with DIC zone scoring. Works offline.</p>' +
+      '<label>Your name</label><input id="lg_name" placeholder="e.g. Rahul" autocomplete="off">' +
+      '<label>Role</label><select id="lg_role"><option value="admin">Admin / Organizer (full control)</option><option value="scorer">Scorer</option><option value="viewer">Viewer (read only)</option></select>' +
+      '<button class="btn" data-a="login">Enter</button><p style="color:#bbb;font-size:12px;margin-top:14px">Accounts are stored on this device (offline-first). Role limits what this device can do.</p></div>' };
+  };
+  A.actions.login = () => {
+    const name = document.getElementById('lg_name').value.trim() || 'Scorer';
+    A.db.user = { name, role: document.getElementById('lg_role').value }; A.save(); ui.view = 'home'; A.render();
+  };
+
+  /* ---------- home ---------- */
+  A.views.home = function () {
+    const d = A.db, act = A.getMatch(), live = act && act.status !== 'completed' ? act : null;
+    let h = '<div class="hero"><div class="tag k">Hi ' + esc(d.user ? d.user.name : '') + '</div><h2 style="margin:6px 0 10px;font-size:24px">Ready to score?</h2>' + (A.canScore() ? '<button class="btn k" data-a="newMatch">+ New match</button>' : '<div>Viewer mode</div>') + '</div>';
+    if (live) {
+      const ev = CE.evaluate(live), inn = ev.current >= 0 ? live.innings[ev.current] : null, st = inn ? CE.replay(live, inn) : null;
+      h += '<div class="card k"><div class="row sp"><span class="tag">LIVE</span><span>' + esc(live.name) + '</span></div><div style="font-size:30px;font-weight:900;margin:6px 0">' + (st ? esc(live.teams[inn.batting].name) + ' ' + st.runs + '/' + st.wkts + ' <small>(' + st.oversText + ')</small>' : 'Between innings') + '</div><button class="btn" data-a="openMatch" data-id="' + live.id + '">Resume scoring</button></div>';
+    }
+    h += '<div class="grid2"><button class="card c" data-a="go" data-v="teams"><b>☻ Teams &amp; players</b></button><button class="card c" data-a="go" data-v="tournaments"><b>🏆 Tournaments</b></button><button class="card c" data-a="go" data-v="dic"><b>◎ DIC zones</b></button><button class="card c" data-a="go" data-v="stats"><b>▥ Analytics</b></button></div>';
+    if (!d.teams.length) h += '<div class="card"><b>First time?</b><p class="mut">Add two sample teams to try the app in seconds, or create your own in Teams.</p><button class="btn sm" data-a="demo">Add demo teams</button></div>';
+    const recent = d.matches.slice(0, 4);
+    h += '<h2>Recent matches</h2>' + (recent.length ? recent.map(matchItem).join('') : '<div class="empty">No matches yet</div>');
+    return A.page('CricTruf', h, 'home', { noBack: true });
+  };
+  A.actions.go = el => A.go(el.dataset.v, {});
+  function matchItem(m) {
+    const ev = CE.evaluate(m);
+    return '<div class="card" data-a="openMatch" data-id="' + m.id + '"><div class="row sp"><b>' + esc(m.name) + '</b><span class="tag ' + (m.status === 'completed' ? 'k' : '') + '">' + (m.status === 'completed' ? 'Done' : m.status === 'toss' ? 'Setup' : 'Live') + '</span></div>' +
+      '<div class="mut">' + esc(m.teams[0].name) + ' vs ' + esc(m.teams[1].name) + ' · ' + esc(m.date) + (m.venue ? ' · ' + esc(m.venue) : '') + '</div>' +
+      (ev.text ? '<div class="b" style="margin-top:4px">' + esc(ev.text) + '</div>' : '') + '</div>';
+  }
+  A.matchItem = matchItem;
+
+  A.actions.demo = () => {
+    const mk = (name, color, names) => ({ id: CE.uid(), name, color, players: names.map((n, i) => ({ id: CE.uid(), name: n, role: i === 0 ? 'Wicketkeeper' : i < 4 ? 'Batsman' : i < 6 ? 'All-rounder' : 'Bowler', bat: 'Right', bowl: i > 3 ? 'Right-arm medium' : 'None' })) });
+    A.db.teams.push(mk('Thunder XI', '#FFD400', ['Aarav', 'Rohan', 'Kabir', 'Vihaan', 'Arjun', 'Dev', 'Ishaan', 'Rudra', 'Yash']));
+    A.db.teams.push(mk('Turf Kings', '#ffffff', ['Sameer', 'Farhan', 'Imran', 'Zaid', 'Nadeem', 'Ayaan', 'Rehan', 'Sufiyan', 'Tariq']));
+    A.save(); A.toast('Demo teams added'); A.render();
+  };
+
+  /* ---------- match wizard ---------- */
+  A.actions.newMatch = () => {
+    ui.draft = { step: 1, name: '', date: A.today(), venue: '', turf: '', overs: 10, ppt: 8, a: '', b: '', dicId: A.db.dics[0].id, rules: CE.clone(A.db.rules), tournamentId: null, fixtureId: null, xi: {}, sub: {}, cap: {}, wk: {}, toss: {}, back: { z1: { on: true, runs: 1, change: false }, z2: { on: true, runs: 1, change: false } } };
+    A.go('newmatch');
+  };
+  const stepBar = n => '<div class="stepper">' + [1, 2, 3, 4, 5].map(i => '<i class="' + (i <= n ? 'on' : '') + '"></i>').join('') + '</div>';
+  const TITLES = ['', 'Match details', 'Select teams', 'Playing XI', 'Match rules', 'Toss'];
+
+  A.views.newmatch = function () {
+    const d = ui.draft; if (!d) { A.actions.newMatch(); return A.views.newmatch(); }
+    let h = stepBar(d.step) + '<h2 style="margin-top:0">' + d.step + '. ' + TITLES[d.step] + '</h2>';
+    if (d.step === 1) {
+      h += '<label>Match name</label><input data-b="draft.name" value="' + esc(d.name) + '" placeholder="e.g. Sunday Final">' +
+        '<div class="grid2"><div><label>Date</label><input type="date" data-b="draft.date" value="' + esc(d.date) + '"></div><div><label>Players / team</label><input type="number" min="2" max="15" data-n data-b="draft.ppt" value="' + d.ppt + '"></div></div>' +
+        '<label>Venue</label><input data-b="draft.venue" value="' + esc(d.venue) + '" placeholder="City / area">' +
+        '<label>Turf / ground name</label><input data-b="draft.turf" value="' + esc(d.turf) + '" list="turfs" placeholder="e.g. Green Box Turf"><datalist id="turfs">' + A.db.dics.filter(x => x.turf).map(x => '<option value="' + esc(x.turf) + '">').join('') + '</datalist>' +
+        '<label>Overs</label><div>' + [5, 6, 8, 10, 12, 15, 20].map(o => '<button class="chip ' + (d.overs === o ? 'on' : '') + '" data-a="overs" data-v="' + o + '">' + o + '</button>').join('') + '</div>' +
+        '<label>Custom overs</label><input type="number" min="1" max="50" data-n data-b="draft.overs" value="' + d.overs + '">' +
+        '<label>DIC zone configuration</label><select data-b="draft.dicId">' + A.db.dics.map(x => '<option value="' + x.id + '"' + (x.id === d.dicId ? ' selected' : '') + '>' + esc(x.name + (x.turf ? ' · ' + x.turf : '')) + '</option>').join('') + '</select>' +
+        '<div class="card"><h3 style="margin-top:0">Zone 1 and Zone 2 (DIC)</h3><div class="mut">Zone 1 = the near ring around the pitch. Zone 2 = the grey area beside the pitch. Decide how they score in this match. With "same striker" the strike stays put until the over completes. The rest of the ground scores as normal (2, 3, 4, 6).</div>' +
+        ['z1', 'z2'].map((k, i) => { const b = (d.back || (d.back = { z1: { on: true, runs: 1, change: false }, z2: { on: true, runs: 1, change: false } }))[k]; return '<div class="sw"><span><b>Zone ' + (i + 1) + '</b></span><input type="checkbox" data-b="draft.back.' + k + '.on"' + (b.on ? ' checked' : '') + '></div>' + (b.on ? '<div class="grid2"><div><label>Runs</label><input type="number" min="0" max="6" data-n data-b="draft.back.' + k + '.runs" value="' + b.runs + '"></div><div class="sw" style="border:0"><span>Change strike</span><input type="checkbox" data-b="draft.back.' + k + '.change"' + (b.change ? ' checked' : '') + '></div></div>' : '<div class="mut">Switched off: taps on this zone are ignored</div>'); }).join('') + '</div>' +
+        (d.tournamentId ? '<div class="tag k">Tournament match</div>' : '');
+    } else if (d.step === 2) {
+      const T = A.db.teams;
+      if (T.length < 2) h += '<div class="card"><p>You need at least two teams.</p><button class="btn sm" data-a="demo">Add demo teams</button> <button class="btn sm ghost" data-a="go" data-v="teams">Create teams</button></div>';
+      const sel = (k, other) => '<select data-b="draft.' + k + '" data-r><option value="">Select…</option>' + T.map(t => '<option value="' + t.id + '"' + (t.id === d[k] ? ' selected' : '') + (t.id === d[other] ? ' disabled' : '') + '>' + esc(t.name) + '</option>').join('') + '</select>';
+      h += '<label>Team A</label>' + sel('a', 'b') + '<label>Team B</label>' + sel('b', 'a');
+    } else if (d.step === 3) {
+      [d.a, d.b].forEach(tid => {
+        const t = A.db.teams.find(t => t.id === tid); if (!t) return;
+        if (!d.xi[tid]) { d.xi[tid] = t.players.slice(0, d.ppt).map(p => p.id); d.sub[tid] = []; d.cap[tid] = d.xi[tid][0] || ''; d.wk[tid] = (t.players.find(p => p.role === 'Wicketkeeper' && d.xi[tid].includes(p.id)) || {}).id || ''; }
+        h += '<div class="card"><div class="row sp"><b>' + esc(t.name) + '</b><span class="tag ' + (d.xi[tid].length === d.ppt ? 'k' : 'red') + '">' + d.xi[tid].length + '/' + d.ppt + ' XI</span></div><div class="list">' +
+          t.players.map(p => '<div class="item"><div class="grow"><b>' + esc(p.name) + '</b> <span class="mut">' + esc(p.role || '') + '</span></div>' +
+            '<button class="chip ' + (d.xi[tid].includes(p.id) ? 'on' : '') + '" style="margin:0" data-a="xi" data-t="' + tid + '" data-p="' + p.id + '">XI</button>' +
+            '<button class="chip ' + (d.sub[tid].includes(p.id) ? 'on' : '') + '" style="margin:0" data-a="subst" data-t="' + tid + '" data-p="' + p.id + '">Sub</button></div>').join('') + '</div>' +
+          '<div class="row"><div><label>Captain</label><select data-b="draft.cap.' + tid + '">' + d.xi[tid].map(id => '<option value="' + id + '"' + (d.cap[tid] === id ? ' selected' : '') + '>' + esc(A.nameOf(id)) + '</option>').join('') + '</select></div>' +
+          '<div><label>Wicketkeeper</label><select data-b="draft.wk.' + tid + '"><option value="">-</option>' + d.xi[tid].map(id => '<option value="' + id + '"' + (d.wk[tid] === id ? ' selected' : '') + '>' + esc(A.nameOf(id)) + '</option>').join('') + '</select></div></div>' +
+          '<div class="row"><input id="qp_' + tid + '" placeholder="Quick add player"><button class="btn sm" style="flex:none" data-a="quickAdd" data-t="' + tid + '">Add</button></div></div>';
+      });
+    } else if (d.step === 4) {
+      h += '<p class="mut">Local rules for this match (defaults come from Settings → Rules). Adjust anything for today\'s turf.</p>' + A.rulesForm('draft.rules', d.rules, true);
+    } else if (d.step === 5) {
+      const ta = A.db.teams.find(t => t.id === d.a), tb = A.db.teams.find(t => t.id === d.b), tt = d.toss;
+      h += '<label>Team calling</label><div><button class="chip ' + (tt.caller === 0 ? 'on' : '') + '" data-a="toss" data-f="caller" data-v="0">' + esc(ta.name) + '</button><button class="chip ' + (tt.caller === 1 ? 'on' : '') + '" data-a="toss" data-f="caller" data-v="1">' + esc(tb.name) + '</button></div>' +
+        '<label>Call</label><div><button class="chip ' + (tt.call === 'H' ? 'on' : '') + '" data-a="toss" data-f="call" data-v="H">Heads</button><button class="chip ' + (tt.call === 'T' ? 'on' : '') + '" data-a="toss" data-f="call" data-v="T">Tails</button></div>' +
+        '<div class="coin ' + (tt.flipping ? 'flip' : '') + '">' + (tt.result || '?') + '</div><button class="btn k" data-a="flip"' + (tt.caller == null || !tt.call ? ' disabled' : '') + '>Flip coin</button>';
+      if (tt.winner != null) {
+        const w = [ta, tb][tt.winner];
+        h += '<div class="hero c" style="margin-top:12px"><b>' + esc(w.name) + ' won the toss</b></div><label>Elected to</label><div><button class="chip ' + (tt.choice === 'bat' ? 'on' : '') + '" data-a="toss" data-f="choice" data-v="bat">Bat</button><button class="chip ' + (tt.choice === 'bowl' ? 'on' : '') + '" data-a="toss" data-f="choice" data-v="bowl">Bowl</button></div>';
+      }
+      h += '<div class="mut" style="margin:8px 0">Toss decided by hand? <button class="chip" data-a="tossManual" data-v="0">' + esc(ta.name) + ' won</button><button class="chip" data-a="tossManual" data-v="1">' + esc(tb.name) + ' won</button></div>';
+    }
+    h += '<div class="row" style="margin-top:14px">' + (d.step > 1 ? '<button class="btn ghost" data-a="wizPrev">Back</button>' : '') + (d.step < 5 ? '<button class="btn" data-a="wizNext">Next</button>' : '<button class="btn" data-a="startMatch"' + (d.toss.winner == null || !d.toss.choice ? ' disabled' : '') + '>Start match</button>') + '</div>';
+    return A.page('New match', h, null, { keepScroll: true });
+  };
+  A.actions.overs = el => { ui.draft.overs = +el.dataset.v; A.render(); };
+  A.actions.wizPrev = () => { ui.draft.step--; A.render(); window.scrollTo(0, 0); };
+  A.actions.wizNext = () => {
+    const d = ui.draft;
+    if (d.step === 1) { if (!d.name.trim()) d.name = 'Match ' + (A.db.matches.length + 1); if (d.overs < 1) return A.toast('Set overs'); if (d.ppt < 2) return A.toast('At least 2 players'); }
+    if (d.step === 2 && (!d.a || !d.b || d.a === d.b)) return A.toast('Pick two different teams');
+    if (d.step === 3) { for (const t of [d.a, d.b]) if (d.xi[t].length < 2) return A.toast('Each team needs at least 2 players in the XI'); }
+    d.step++; A.render(); window.scrollTo(0, 0);
+  };
+  A.actions.xi = el => {
+    const d = ui.draft, t = el.dataset.t, p = el.dataset.p, xi = d.xi[t];
+    const i = xi.indexOf(p); if (i >= 0) xi.splice(i, 1); else { if (xi.length >= d.ppt) return A.toast('XI is full (' + d.ppt + ')'); xi.push(p); d.sub[t] = d.sub[t].filter(x => x !== p); }
+    if (!xi.includes(d.cap[t])) d.cap[t] = xi[0] || ''; if (!xi.includes(d.wk[t])) d.wk[t] = '';
+    A.render();
+  };
+  A.actions.subst = el => {
+    const d = ui.draft, t = el.dataset.t, p = el.dataset.p, s = d.sub[t], i = s.indexOf(p);
+    if (i >= 0) s.splice(i, 1); else { s.push(p); d.xi[t] = d.xi[t].filter(x => x !== p); if (!d.xi[t].includes(d.cap[t])) d.cap[t] = d.xi[t][0] || ''; }
+    A.render();
+  };
+  A.actions.quickAdd = el => {
+    const t = A.db.teams.find(t => t.id === el.dataset.t), inp = document.getElementById('qp_' + t.id), n = inp.value.trim(); if (!n) return;
+    const p = { id: CE.uid(), name: n, role: 'All-rounder', bat: 'Right', bowl: 'Right-arm medium' }; t.players.push(p);
+    const d = ui.draft; if (d.xi[t.id].length < d.ppt) d.xi[t.id].push(p.id); A.save(); A.render();
+  };
+  A.actions.toss = el => { const f = el.dataset.f, v = el.dataset.v; ui.draft.toss[f] = f === 'caller' ? +v : v; A.render(); };
+  A.actions.flip = () => {
+    const t = ui.draft.toss; t.flipping = true; t.result = Math.random() < .5 ? 'H' : 'T';
+    t.winner = t.call === t.result ? t.caller : 1 - t.caller; t.choice = null; A.render();
+    setTimeout(() => { t.flipping = false; A.render(); }, 1000);
+  };
+  A.actions.tossManual = el => { const t = ui.draft.toss; t.winner = +el.dataset.v; t.result = '✓'; t.choice = null; A.render(); };
+  A.actions.startMatch = () => {
+    const d = ui.draft, dic = A.db.dics.find(x => x.id === d.dicId) || A.db.dics[0];
+    const mk = tid => { const t = A.db.teams.find(t => t.id === tid); return { id: t.id, name: t.name, color: t.color, players: t.players.map(p => ({ id: p.id, name: p.name })), xi: d.xi[tid].slice(), subs: d.sub[tid].slice(), captain: d.cap[tid], wk: d.wk[tid] }; };
+    const m = CE.createMatch({ name: d.name, date: d.date, venue: d.venue, turf: d.turf || dic.turf, overs: d.overs, teams: [mk(d.a), mk(d.b)], dic, rules: d.rules, tournamentId: d.tournamentId, fixtureId: d.fixtureId });
+    ['z1', 'z2'].forEach(k => { const b = d.back && d.back[k]; if (!b) return; m.dic.zones.filter(x => k === 'z1' ? (x.ring === 0 && x.id !== 'z2') : x.id === 'z2').forEach(z => { z.off = !b.on; z.runs = b.runs; z.rotate = b.change ? 'change' : 'keep'; }); });
+    m.toss = { winner: d.toss.winner, call: d.toss.call, result: d.toss.result, choice: d.toss.choice, caller: d.toss.caller };
+    m.battingFirst = d.toss.choice === 'bat' ? d.toss.winner : 1 - d.toss.winner; m.status = 'live';
+    CE.newInnings(m, m.battingFirst); // first innings starts straight after the toss
+    A.db.matches.unshift(m); A.db.activeMatch = m.id;
+    if (d.tournamentId) { const t = A.db.tournaments.find(t => t.id === d.tournamentId); const f = t && t.fixtures.find(f => f.id === d.fixtureId); if (f) f.matchId = m.id; }
+    ui.draft = null; A.save(); ui.stack = []; A.go('live', { id: m.id }, true);
+  };
+
+  /* ---------- teams ---------- */
+  A.views.teams = function () {
+    let h = '<div class="card"><label>New team</label><input data-b="ui.nt" value="' + esc(ui.nt || '') + '" placeholder="Team name"><div>' + COLORS.map(c => '<button class="chip ' + (ui.ntc === c ? 'on' : '') + '" style="background:' + c + ';min-width:38px;height:30px" data-a="teamColor" data-v="' + c + '"></button>').join('') + '</div><button class="btn" data-a="addTeam">Add team</button></div>';
+    h += A.db.teams.length ? A.db.teams.map(t => '<div class="card" data-a="openTeam" data-id="' + t.id + '"><div class="row"><span class="av" style="flex:none;background:' + esc(t.color) + '">' + esc(A.initials(t.name)) + '</span><div><b>' + esc(t.name) + '</b><div class="mut">' + t.players.length + ' players</div></div></div></div>').join('') : '<div class="empty">No teams yet<br><br><button class="btn sm" data-a="demo">Add demo teams</button></div>';
+    return A.page('Teams', h, 'teams', { noBack: true, keepScroll: true });
+  };
+  A.actions.teamColor = el => { ui.ntc = el.dataset.v; A.render(); };
+  A.actions.addTeam = () => {
+    const n = (ui.nt || '').trim(); if (!n) return A.toast('Enter a team name');
+    A.db.teams.push({ id: CE.uid(), name: n, color: ui.ntc || '#FFD400', players: [] }); ui.nt = ''; A.save(); A.render();
+  };
+  A.actions.openTeam = el => A.go('team', { id: el.dataset.id });
+  A.views.team = function () {
+    const t = A.db.teams.find(t => t.id === ui.params.id); if (!t) return A.page('Team', '<div class="empty">Not found</div>');
+    const np = ui.np || (ui.np = { name: '', role: 'Batsman', bat: 'Right', bowl: 'None', photo: '' });
+    const sel = (k, opts) => '<select data-b="ui.np.' + k + '">' + opts.map(o => '<option' + (np[k] === o ? ' selected' : '') + '>' + o + '</option>').join('') + '</select>';
+    let h = '<div class="card row"><span class="av" style="flex:none;background:' + esc(t.color) + '">' + esc(A.initials(t.name)) + '</span><div><label>Team name</label><input data-b="db.teams.' + A.db.teams.indexOf(t) + '.name" value="' + esc(t.name) + '"></div></div>' +
+      '<div>' + COLORS.map(c => '<button class="chip ' + (t.color === c ? 'on' : '') + '" style="background:' + c + ';min-width:38px;height:30px" data-a="tColor" data-id="' + t.id + '" data-v="' + c + '"></button>').join('') + '</div>' +
+      '<h2>Players (' + t.players.length + ')</h2><div class="card list">' + (t.players.map(p => '<div class="item" data-a="openPlayer" data-t="' + t.id + '" data-p="' + p.id + '"><span class="avatar">' + (p.photo ? '<img src="' + p.photo + '">' : esc(A.initials(p.name))) + '</span><div class="grow"><b>' + esc(p.name) + '</b><div class="mut">' + esc(p.role || '') + ' · ' + esc(p.bat || '') + '-hand bat · ' + esc(p.bowl || '') + '</div></div></div>').join('') || '<div class="empty">No players yet</div>') + '</div>' +
+      '<div class="card"><b>Add player</b><label>Name</label><input data-b="ui.np.name" value="' + esc(np.name) + '"><div class="grid3"><div><label>Role</label>' + sel('role', ['Batsman', 'Bowler', 'All-rounder', 'Wicketkeeper']) + '</div><div><label>Batting</label>' + sel('bat', ['Right', 'Left']) + '</div><div><label>Bowling</label>' + sel('bowl', ['None', 'Right-arm fast', 'Right-arm medium', 'Right-arm spin', 'Left-arm fast', 'Left-arm medium', 'Left-arm spin']) + '</div></div>' +
+      '<label>Photo (optional)</label><input type="file" accept="image/*" data-photo="np">' + (np.photo ? '<span class="avatar"><img src="' + np.photo + '"></span>' : '') + '<button class="btn" data-a="addPlayer" data-id="' + t.id + '">Add player</button></div>' +
+      '<button class="btn danger" data-a="delTeam" data-id="' + t.id + '">Delete team</button>';
+    return A.page(t.name, h, null, { keepScroll: true });
+  };
+  A.actions.tColor = el => { A.db.teams.find(t => t.id === el.dataset.id).color = el.dataset.v; A.save(); A.render(); };
+  A.actions.addPlayer = el => {
+    const t = A.db.teams.find(t => t.id === el.dataset.id), np = ui.np; if (!np.name.trim()) return A.toast('Enter player name');
+    t.players.push({ id: CE.uid(), name: np.name.trim(), role: np.role, bat: np.bat, bowl: np.bowl, photo: np.photo }); ui.np = null; A.save(); A.render();
+  };
+  A.actions.delTeam = el => { if (!confirm('Delete this team? Past matches keep their own copy.')) return; A.db.teams = A.db.teams.filter(t => t.id !== el.dataset.id); A.save(); A.back(); };
+  A.actions.openPlayer = el => A.go('player', { t: el.dataset.t, p: el.dataset.p });
+  document.addEventListener('change', e => {
+    const el = e.target; if (!el.matches || !el.matches('[data-photo]')) return;
+    const f = el.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas'); c.width = c.height = 120; const x = c.getContext('2d'), s = Math.min(img.width, img.height);
+        x.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, 120, 120);
+        const url = c.toDataURL('image/jpeg', .7);
+        if (el.dataset.photo === 'np') ui.np.photo = url; else { const t = A.db.teams.find(t => t.id === ui.params.t), p = t.players.find(p => p.id === ui.params.p); p.photo = url; A.save(); }
+        A.render();
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(f);
+  });
+  A.views.player = function () {
+    const t = A.db.teams.find(t => t.id === ui.params.t), p = t && t.players.find(p => p.id === ui.params.p);
+    if (!p) return A.page('Player', '<div class="empty">Not found</div>');
+    const S = CE.playerStats(A.db.matches)[p.id] || { matches: 0, inns: 0, runs: 0, balls: 0, fours: 0, sixes: 0, hs: 0, wkts: 0, avg: 0, sr: 0, econ: 0, bowled: 0, conceded: 0 };
+    const idx = A.db.teams.indexOf(t), pi = t.players.indexOf(p);
+    const k = (v, l) => '<div class="kpi"><b>' + v + '</b><span>' + l + '</span></div>';
+    const h = '<div class="hero c"><span class="avatar" style="width:84px;height:84px;margin:0 auto 8px;font-size:28px">' + (p.photo ? '<img src="' + p.photo + '">' : esc(A.initials(p.name))) + '</span><h2 style="margin:0">' + esc(p.name) + '</h2><div>' + esc(t.name) + ' · ' + esc(p.role || '') + '</div><div>' + esc(p.bat || '') + '-hand bat · ' + esc(p.bowl || '') + '</div></div>' +
+      '<div class="grid3">' + k(S.matches, 'Matches') + k(S.runs, 'Runs') + k(S.wkts, 'Wickets') + k(A.fmt1(S.avg), 'Bat avg') + k(A.fmt1(S.sr), 'Strike rate') + k(S.hs, 'High score') + k(S.fours + '/' + S.sixes, '4s / 6s') + k(S.bowled ? A.fmt2(S.econ) : '-', 'Economy') + k(S.conceded, 'Runs given') + '</div>' +
+      '<div class="card" style="margin-top:12px"><label>Name</label><input data-b="db.teams.' + idx + '.players.' + pi + '.name" value="' + esc(p.name) + '"><label>Change photo</label><input type="file" accept="image/*" data-photo="p"></div>' +
+      '<button class="btn danger" data-a="delPlayer">Remove player</button>';
+    return A.page(p.name, h, null, { keepScroll: true });
+  };
+  A.actions.delPlayer = () => { const t = A.db.teams.find(t => t.id === ui.params.t); t.players = t.players.filter(p => p.id !== ui.params.p); A.save(); A.back(); };
+})();
+</script>
+<script>/* Scorecard, summary, live board, analytics, stats, history, tournaments */
+(function () {
+  'use strict';
+  const A = window.A, CE = A.CE, esc = A.esc, ui = A.ui;
+  const pn = (m, id) => CE.playerName(m, id);
+  const kpi = (v, l) => '<div class="kpi"><b>' + v + '</b><span>' + l + '</span></div>';
+  const mOf = () => A.matchById(ui.params.id) || A.getMatch();
+
+  A.copy = function (text) {
+    if (navigator.share) { navigator.share({ text }).catch(() => { }); return; }
+    try { navigator.clipboard.writeText(text).then(() => A.toast('Copied')); } catch (e) {
+      const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); A.toast('Copied'); } catch (x) { } t.remove();
+    }
+  };
+
+  /* ---------- scorecard ---------- */
+  A.views.scorecard = function () {
+    const m = mOf(); if (!m) return A.page('Scorecard', '<div class="empty">No match</div>');
+    if (!m.innings.length) return A.page('Scorecard', '<div class="empty">Scoring has not started</div>');
+    const i = Math.min(ui.sc != null ? ui.sc : m.innings.length - 1, m.innings.length - 1), inn = m.innings[i], st = CE.replay(m, inn), R = CE.rulesOf(m);
+    let h = '<div class="seg">' + m.innings.map((x, k) => '<button class="' + (k === i ? 'on' : '') + '" data-a="scTab" data-v="' + k + '">' + esc(m.teams[x.batting].name) + (x.type === 'super' ? ' SO' : '') + '</button>').join('') + '</div>';
+    h += '<div class="card k"><div class="row sp"><b>' + esc(m.teams[inn.batting].name) + '</b><span style="font-size:26px;font-weight:900">' + st.runs + '/' + st.wkts + ' <small>(' + st.oversText + ')</small></span></div><div class="mut">RR ' + A.fmt2(st.crr) + (inn.target ? ' · Target ' + inn.target : '') + '</div></div>';
+    h += '<div class="card"><h3 style="margin-top:0">Batting</h3><table><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr>' +
+      st.order.map(id => { const b = st.batters[id]; return '<tr><td><b>' + esc(pn(m, id)) + '</b><div class="mut">' + esc(CE.dismissalText(m, st, b)) + '</div></td><td><b>' + b.runs + '</b></td><td>' + b.balls + '</td><td>' + b.fours + '</td><td>' + b.sixes + '</td><td>' + (b.balls ? A.fmt1(b.runs / b.balls * 100) : '-') + '</td></tr>'; }).join('') + '</table>' +
+      '<div class="mut" style="margin-top:6px">Yet to bat: ' + (st.availBatters.map(id => esc(pn(m, id))).join(', ') || '-') + '</div>' +
+      '<div class="row sp" style="margin-top:8px"><span>Extras</span><b>' + st.extrasTotal + ' <span class="mut">(wd ' + st.extras.wd + ', nb ' + st.extras.nb + ', b ' + st.extras.b + ', lb ' + st.extras.lb + ')</span></b></div></div>';
+    h += '<div class="card"><h3 style="margin-top:0">Bowling</h3><table><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Eco</th></tr>' +
+      st.bowlerOrder.map(id => { const b = st.bowlers[id]; return '<tr><td><b>' + esc(pn(m, id)) + '</b></td><td>' + CE.oversStr(b.balls, R.ballsPerOver) + '</td><td>' + b.maidens + '</td><td>' + b.runs + '</td><td><b>' + b.wkts + '</b></td><td>' + (b.balls ? A.fmt2(b.runs / (b.balls / R.ballsPerOver)) : '-') + '</td></tr>'; }).join('') + '</table></div>';
+    h += '<div class="card"><h3 style="margin-top:0">Fall of wickets</h3>' + (st.fow.length ? st.fow.map(f => '<div class="row sp"><span>' + f.n + '-' + f.runs + ' <b>' + esc(pn(m, f.batter)) + '</b></span><span class="mut">' + f.over + ' ov · p\'ship ' + f.partnership + '</span></div>').join('') : '<span class="mut">No wickets</span>') +
+      '<div class="row sp" style="margin-top:6px"><span>Current partnership</span><b>' + st.part.runs + ' (' + st.part.balls + ')</b></div></div>';
+    h += '<h3>Ball by ball</h3><div class="card">' + (function () { const g = {}; st.timeline.forEach(t => (g[t.over] = g[t.over] || []).push(t)); return Object.keys(g).map(o => '<div class="row" style="align-items:flex-start"><b style="flex:none;width:38px">' + (+o + 1) + '</b><div class="balls" style="margin:0">' + g[o].map(A.ballChip).join('') + '</div></div>').join('') || '<span class="mut">-</span>'; })() + '</div>';
+    return A.page('Scorecard', h, null, { keepScroll: true });
+  };
+  A.actions.scTab = el => { ui.sc = +el.dataset.v; A.render(); };
+
+  /* ---------- summary ---------- */
+  function summaryText(m) {
+    const ev = CE.evaluate(m);
+    return m.name + ' (' + m.date + ')\n' + m.innings.map(inn => { const s = CE.replay(m, inn); return m.teams[inn.batting].name + ': ' + s.runs + '/' + s.wkts + ' (' + s.oversText + ')'; }).join('\n') + '\n' + (ev.text || 'In progress') + '\nScored with CricTruf';
+  }
+  A.views.summary = function () {
+    const m = mOf(); if (!m) return A.page('Summary', '<div class="empty">No match</div>');
+    const ev = CE.evaluate(m);
+    let bestBat = null, bestBowl = null;
+    m.innings.forEach(inn => { const s = CE.replay(m, inn); s.order.forEach(id => { const b = s.batters[id]; if (!bestBat || b.runs > bestBat.runs) bestBat = { id, runs: b.runs, balls: b.balls }; }); s.bowlerOrder.forEach(id => { const b = s.bowlers[id]; if (!bestBowl || b.wkts > bestBowl.wkts || (b.wkts === bestBowl.wkts && b.runs < bestBowl.runs)) bestBowl = { id, wkts: b.wkts, runs: b.runs }; }); });
+    let h = '<div class="hero c"><div class="tag k">' + (m.status === 'completed' ? 'Result' : 'In progress') + '</div><h2 style="margin:8px 0">' + esc(ev.text || 'Match in progress') + '</h2><div>' + esc(m.venue || '') + (m.turf ? ' · ' + esc(m.turf) : '') + ' · ' + esc(m.date) + '</div></div>' + A.scoreLines(m);
+    if (bestBat) h += '<div class="grid2"><div class="kpi"><b>' + bestBat.runs + '(' + bestBat.balls + ')</b><span>Top scorer: ' + esc(pn(m, bestBat.id)) + '</span></div><div class="kpi"><b>' + bestBowl.wkts + '/' + bestBowl.runs + '</b><span>Best bowler: ' + esc(pn(m, bestBowl.id)) + '</span></div></div>';
+    h += '<div class="grid2" style="margin-top:12px"><button class="btn" data-a="open" data-v="scorecard" data-id="' + m.id + '">Scorecard</button><button class="btn k" data-a="open" data-v="analytics" data-id="' + m.id + '">Analytics</button></div><div style="height:8px"></div>' +
+      '<button class="btn ghost" data-a="share" data-id="' + m.id + '">Share result</button>';
+    if (m.status !== 'completed') h += '<div style="height:8px"></div><button class="btn" data-a="openMatch2" data-id="' + m.id + '">Resume scoring</button>';
+    else if (A.canScore()) h += '<div style="height:8px"></div><button class="btn ghost" data-a="undoLast" data-id="' + m.id + '">Undo last ball (reopen)</button>';
+    return A.page('Match summary', h, null);
+  };
+  A.actions.share = el => A.copy(summaryText(A.matchById(el.dataset.id)));
+  A.actions.openMatch2 = el => { A.db.activeMatch = el.dataset.id; A.save(); A.go('live', {}); };
+  A.actions.undoLast = el => {
+    const m = A.matchById(el.dataset.id), inn = m.innings[m.innings.length - 1]; if (!inn) return;
+    CE.undo(m, inn); m.status = 'live'; A.db.activeMatch = m.id; A.save(); A.go('live', {}, true);
+  };
+
+  /* ---------- live board ---------- */
+  A.views.board = function () {
+    const m = mOf(); if (!m) return { html: '<div class="boardwrap"><button data-a="back">‹ Back</button><p>No match</p></div>' };
+    const ev = CE.evaluate(m);
+    const idx = ev.current >= 0 ? ev.current : m.innings.length - 1, inn = m.innings[idx];
+    if (!inn) return { html: '<div class="boardwrap"><button data-a="back">‹ Back</button><div class="sc">Match not started</div></div>' };
+    const st = CE.replay(m, inn), bpo = st.bpo, bt = m.teams[inn.batting], bw = m.teams[inn.bowling];
+    const cur = Math.floor(st.legal / bpo);
+    const lastOver = st.timeline.filter(t => t.over === (st.legal % bpo === 0 ? cur - 1 : cur - 1));
+    const b1 = st.batters[st.striker], b2 = st.batters[st.nonStriker], bo = st.bowlers[st.bowler] || st.bowlers[st.lastBowler];
+    const row = (b, id, s) => '<div class="row sp"><span>' + (s ? '▶ ' : '') + esc(id != null ? pn(m, id) : '-') + '</span><b style="color:var(--y)">' + (b ? b.runs + ' (' + b.balls + ')' : '') + '</b></div>';
+    const status = ev.text || (st.target ? esc(bt.name) + ' need ' + st.runsNeeded + ' from ' + st.ballsLeft + ' balls' : esc(bt.name) + ' batting');
+    return {
+      html: '<div class="boardwrap"><div class="row sp" style="margin-bottom:10px"><button data-a="back" style="background:transparent;color:#fff;border-color:#fff">‹</button><span class="tag">' + (m.status === 'completed' ? 'FINAL' : 'LIVE') + '</span><button data-a="theme" style="background:transparent;color:#fff;border-color:#fff">☾</button></div>' +
+        '<div class="teams"><div class="c">' + A.teamLogo(bt, 'av') + '<div class="b">' + esc(bt.name) + '</div></div><div class="mut b">VS</div><div class="c">' + A.teamLogo(bw, 'av') + '<div class="b">' + esc(bw.name) + '</div></div></div>' +
+        '<div class="sc">' + st.runs + '/' + st.wkts + '</div><div class="c" style="font-size:20px">Overs ' + st.oversText + ' / ' + inn.overs + (st.freeHit ? ' <span class="fh">FREE HIT</span>' : '') + '</div>' +
+        '<div class="grid2" style="margin:14px 0"><div class="kpi" style="background:#111;color:#fff"><b style="color:var(--y)">' + A.fmt2(st.crr) + '</b><span>Run rate</span></div><div class="kpi" style="background:#111;color:#fff"><b style="color:var(--y)">' + (st.target ? (st.rrr == null ? '-' : A.fmt2(st.rrr)) : st.part.runs) + '</b><span>' + (st.target ? 'Required RR' : 'Partnership') + '</span></div></div>' +
+        (st.target ? '<div class="c" style="margin-bottom:8px">Target <b style="color:var(--y)">' + st.target + '</b></div>' : '') +
+        '<div class="card k">' + row(b1, st.striker, true) + row(b2, st.nonStriker, false) + '<hr style="border-color:#333"><div class="row sp"><span>⚾ ' + esc(bo ? pn(m, bo.id) : '-') + '</span><b>' + (bo ? CE.oversStr(bo.balls, bpo) + '-' + bo.maidens + '-' + bo.runs + '-' + bo.wkts : '') + '</b></div></div>' +
+        '<div class="mut">Last 6 balls</div><div class="balls">' + st.timeline.slice(-6).map(A.ballChip).join('') + '</div>' +
+        (lastOver.length ? '<div class="mut">Last over: ' + lastOver.reduce((a, b) => a + b.runs, 0) + ' runs</div>' : '') +
+        '<div class="hero c" style="margin-top:12px"><b>' + esc(status) + '</b></div><div class="c mut" style="margin-top:8px">P\'ship ' + st.part.runs + ' (' + st.part.balls + ') · Extras ' + st.extrasTotal + '</div></div>'
+    };
+  };
+
+  /* ---------- analytics ---------- */
+  function heatFrom(zonesAgg, key) {
+    const mx = Math.max(1, ...Object.values(zonesAgg).map(z => z[key])); const heat = {}, txt = {};
+    Object.values(zonesAgg).forEach(z => { heat[z.id] = z[key] / mx; txt[z.id] = z[key]; }); return { heat, txt };
+  }
+  A.views.analytics = function () {
+    const m = mOf(); if (!m) return A.page('Analytics', '<div class="empty">No match</div>');
+    const a = CE.analytics(m), R = CE.rulesOf(m);
+    if (!a.balls) return A.page('Analytics', '<div class="empty">No deliveries yet</div>');
+    const { heat, txt } = heatFrom(a.zones, 'runs');
+    const zl = Object.values(a.zones).sort((x, y) => y.count - x.count), sh = Object.values(a.shots).sort((x, y) => y.count - x.count);
+    let h = '<div class="grid3">' + kpi(a.runs, 'Total runs') + kpi(A.fmt1(a.dotPct) + '%', 'Dot balls') + kpi(A.fmt1(a.boundPct) + '%', 'Boundaries') + '</div>';
+    h += '<h2>Zone-wise runs</h2><div class="card">' + (zl.length ? A.groundSVG(m.dic.zones, { heat, heatText: txt, act: 'noop' }) + '<div class="mut c">Deeper yellow/orange = more runs from that zone</div>' : '<div class="empty">No DIC zone shots recorded yet</div>') + '</div>';
+    if (zl.length) {
+      h += '<div class="card"><h3 style="margin-top:0">Most targeted shots / zones</h3><table><tr><th>Shot / zone</th><th>Balls</th><th>Runs</th></tr>' + sh.slice(0, 11).map(z => '<tr><td>' + esc(z.label) + '</td><td>' + z.count + '</td><td><b>' + z.runs + '</b></td></tr>').join('') + '</table></div>';
+      const tot = a.byRing.reduce((s, r) => s + r.runs, 0) || 1;
+      h += '<div class="card"><h3 style="margin-top:0">Runs by area</h3>' + a.byRing.map((r, i) => !r.balls ? '' : '<div class="row sp" style="margin:4px 0"><span style="flex:none;width:110px;font-size:12px">' + CE.RINGS[i] + '</span><div style="flex:1"><div class="bar" style="width:' + Math.max(2, r.runs / tot * 100) + '%"></div></div><b style="flex:none;width:40px;text-align:right">' + r.runs + '</b></div>').join('') + '</div>';
+    }
+    a.overs.forEach(o => {
+      const mx = Math.max(1, ...o.overs);
+      h += '<div class="card"><h3 style="margin-top:0">' + esc(o.team) + ': over by over</h3><div class="bars">' + o.overs.map((r, i) => '<div><span>' + r + '</span><div class="col ' + (o.wkts[i] ? 'wk' : '') + '" style="height:' + (r / mx * 90) + '%"></div><span class="mut">' + (i + 1) + '</span></div>').join('') + '</div><div class="mut">Red bars = over with a wicket</div></div>';
+    });
+    // player performance
+    h += '<div class="card"><h3 style="margin-top:0">Batting performance</h3><table><tr><th>Batter</th><th>R</th><th>B</th><th>SR</th><th>4s/6s</th></tr>';
+    m.innings.forEach(inn => { const s = CE.replay(m, inn); s.order.forEach(id => { const b = s.batters[id]; h += '<tr><td>' + esc(pn(m, id)) + '</td><td><b>' + b.runs + '</b></td><td>' + b.balls + '</td><td>' + (b.balls ? A.fmt1(b.runs / b.balls * 100) : '-') + '</td><td>' + b.fours + '/' + b.sixes + '</td></tr>'; }); });
+    h += '</table></div><div class="card"><h3 style="margin-top:0">Bowling performance</h3><table><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Eco</th></tr>';
+    m.innings.forEach(inn => { const s = CE.replay(m, inn); s.bowlerOrder.forEach(id => { const b = s.bowlers[id]; h += '<tr><td>' + esc(pn(m, id)) + '</td><td>' + CE.oversStr(b.balls, R.ballsPerOver) + '</td><td>' + b.runs + '</td><td><b>' + b.wkts + '</b></td><td>' + (b.balls ? A.fmt2(b.runs / (b.balls / R.ballsPerOver)) : '-') + '</td></tr>'; }); });
+    h += '</table></div>';
+    // partnerships + winning analysis
+    const parts = []; m.innings.forEach((inn, k) => { const s = CE.replay(m, inn); s.fow.forEach(f => parts.push({ t: m.teams[inn.batting].name, runs: f.partnership, n: f.n })); parts.push({ t: m.teams[inn.batting].name, runs: s.part.runs, n: 'unbroken' }); });
+    parts.sort((x, y) => y.runs - x.runs);
+    let bestOver = null; a.overs.forEach(o => o.overs.forEach((r, i) => { if (!bestOver || r > bestOver.r) bestOver = { r, i, t: o.team }; }));
+    h += '<div class="card"><h3 style="margin-top:0">Partnerships &amp; match analysis</h3>' + parts.slice(0, 4).map(p => '<div class="row sp"><span>' + esc(p.t) + ' · wkt ' + p.n + '</span><b>' + p.runs + '</b></div>').join('') +
+      (bestOver ? '<p>Most productive over: <b>' + esc(bestOver.t) + ' over ' + (bestOver.i + 1) + ' (' + bestOver.r + ' runs)</b>.</p>' : '') + '</div>';
+    return A.page('Analytics', h, null);
+  };
+  A.actions.noop = () => { };
+
+  /* ---------- stats (global) ---------- */
+  A.views.stats = function () {
+    const S = Object.values(CE.playerStats(A.db.matches));
+    const top = (arr, f, fmt) => arr.length ? '<table>' + arr.slice(0, 5).map((p, i) => '<tr><td>' + (i + 1) + '. <b>' + esc(A.nameOf(p.id)) + '</b></td><td><b>' + fmt(p) + '</b></td></tr>').join('') + '</table>' : '<span class="mut">No data</span>';
+    let h = '<div class="grid3">' + kpi(A.db.matches.length, 'Matches') + kpi(A.db.matches.filter(m => m.status === 'completed').length, 'Completed') + kpi(S.length, 'Players') + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Top run scorers</h3>' + top(S.filter(p => p.runs).sort((a, b) => b.runs - a.runs), 0, p => p.runs + ' runs') + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Top wicket takers</h3>' + top(S.filter(p => p.wkts).sort((a, b) => b.wkts - a.wkts), 0, p => p.wkts + ' wkts') + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Best strike rate (10+ balls)</h3>' + top(S.filter(p => p.balls >= 10).sort((a, b) => b.sr - a.sr), 0, p => A.fmt1(p.sr)) + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Best economy (2+ overs)</h3>' + top(S.filter(p => p.bowled >= 12).sort((a, b) => a.econ - b.econ), 0, p => A.fmt2(p.econ)) + '</div>';
+    const agg = {}; A.db.matches.forEach(m => { const a = CE.analytics(m); Object.values(a.zones).forEach(z => { const g = agg[z.id] || (agg[z.id] = { id: z.id, runs: 0, count: 0 }); g.runs += z.runs; g.count += z.count; }); });
+    if (Object.keys(agg).length) { const { heat, txt } = heatFrom(agg, 'runs'); h += '<div class="card"><h3 style="margin-top:0">All-matches zone heatmap</h3>' + A.groundSVG(A.db.dics[0].zones, { heat, heatText: txt, act: 'noop' }) + '</div>'; }
+    return A.page('Stats & analytics', h, 'stats', { noBack: true });
+  };
+
+  /* ---------- history ---------- */
+  A.views.history = function () {
+    const q = (ui.q || '').toLowerCase();
+    const list = A.db.matches.filter(m => !q || (m.name + m.teams[0].name + m.teams[1].name + m.venue).toLowerCase().includes(q));
+    let h = '<input data-b="ui.q" data-r placeholder="Search matches" value="' + esc(ui.q || '') + '">' + (list.length ? list.map(A.matchItem).join('') : '<div class="empty">No matches</div>');
+    return A.page('Match history', h, 'history', { noBack: true, keepScroll: true });
+  };
+
+  /* ---------- tournaments ---------- */
+  const tm = (t, id) => (A.db.teams.find(x => x.id === id) || { name: '?' }).name;
+  function pointsTable(t) {
+    const rows = {}; t.teamIds.forEach(id => rows[id] = { id, p: 0, w: 0, l: 0, t: 0, pts: 0, rf: 0, bf: 0, ra: 0, ba: 0 });
+    t.fixtures.filter(f => f.round === 'League' && f.matchId).forEach(f => {
+      const m = A.matchById(f.matchId); if (!m || m.status !== 'completed') return;
+      const ev = CE.evaluate(m); const A_ = rows[m.teams[0].id], B_ = rows[m.teams[1].id]; if (!A_ || !B_) return;
+      A_.p++; B_.p++;
+      if (ev.winner == null) { A_.t++; B_.t++; A_.pts++; B_.pts++; } else { const w = rows[m.teams[ev.winner].id], l = rows[m.teams[1 - ev.winner].id]; w.w++; w.pts += 2; l.l++; }
+      m.innings.filter(i => i.type === 'normal').forEach(inn => {
+        const s = CE.replay(m, inn), bat = rows[m.teams[inn.batting].id], bow = rows[m.teams[inn.bowling].id], balls = s.endReason === 'All out' ? inn.overs * s.bpo : s.legal;
+        bat.rf += s.runs; bat.bf += balls; bow.ra += s.runs; bow.ba += balls;
+      });
+    });
+    return Object.values(rows).map(r => { r.nrr = (r.bf ? r.rf / (r.bf / 6) : 0) - (r.ba ? r.ra / (r.ba / 6) : 0); return r; }).sort((a, b) => b.pts - a.pts || b.nrr - a.nrr);
+  }
+  const fxWinner = (f) => { if (f.bye) return f.a; const m = f.matchId && A.matchById(f.matchId); if (!m || m.status !== 'completed') return null; const ev = CE.evaluate(m); return ev.winner == null ? null : m.teams[ev.winner].id; };
+
+  A.views.tournaments = function () {
+    let h = (A.canConfig() ? '<button class="btn" data-a="newTour">+ New tournament</button><div style="height:10px"></div>' : '') +
+      (A.db.tournaments.length ? A.db.tournaments.map(t => '<div class="card" data-a="openTour" data-id="' + t.id + '"><div class="row sp"><b>' + esc(t.name) + '</b><span class="tag">' + (t.format === 'league' ? 'League' : 'Knockout') + '</span></div><div class="mut">' + t.teamIds.length + ' teams · ' + t.overs + ' overs' + (t.champion ? ' · 🏆 ' + esc(tm(t, t.champion)) : '') + '</div></div>').join('') : '<div class="empty">No tournaments yet</div>');
+    return A.page('Tournaments', h, null);
+  };
+  A.actions.newTour = () => { ui.tf = { name: '', format: 'league', teams: [], overs: 8, dicId: A.db.dics[0].id, rounds: 1 }; A.go('tourNew'); };
+  A.actions.openTour = el => A.go('tournament', { id: el.dataset.id });
+  A.views.tourNew = function () {
+    const f = ui.tf || A.actions.newTour();
+    let h = '<label>Tournament name</label><input data-b="ui.tf.name" value="' + esc(f.name) + '" placeholder="e.g. Weekend Turf Cup">' +
+      '<label>Format</label><div><button class="chip ' + (f.format === 'league' ? 'on' : '') + '" data-a="tf" data-f="format" data-v="league">League + semis + final</button><button class="chip ' + (f.format === 'knockout' ? 'on' : '') + '" data-a="tf" data-f="format" data-v="knockout">Knockout</button></div>' +
+      '<div class="grid2"><div><label>Overs</label><input type="number" data-n data-b="ui.tf.overs" value="' + f.overs + '"></div><div><label>League rounds</label><select data-b="ui.tf.rounds" data-n><option value="1"' + (f.rounds == 1 ? ' selected' : '') + '>Single</option><option value="2"' + (f.rounds == 2 ? ' selected' : '') + '>Double</option></select></div></div>' +
+      '<label>Tournament DIC &amp; local rules</label><select data-b="ui.tf.dicId">' + A.db.dics.map(d => '<option value="' + d.id + '"' + (d.id === f.dicId ? ' selected' : '') + '>' + esc(d.name) + '</option>').join('') + '</select>' +
+      '<label>Teams (' + f.teams.length + ')</label><div>' + (A.db.teams.map(t => '<button class="chip ' + (f.teams.includes(t.id) ? 'on' : '') + '" data-a="tfTeam" data-id="' + t.id + '">' + esc(t.name) + '</button>').join('') || '<span class="mut">Create teams first</span>') + '</div>' +
+      '<button class="btn" data-a="tfCreate">Create &amp; generate fixtures</button>';
+    return A.page('New tournament', h, null, { keepScroll: true });
+  };
+  A.actions.tf = el => { ui.tf[el.dataset.f] = el.dataset.v; A.render(); };
+  A.actions.tfTeam = el => { const a = ui.tf.teams, i = a.indexOf(el.dataset.id); if (i >= 0) a.splice(i, 1); else a.push(el.dataset.id); A.render(); };
+  A.actions.tfCreate = () => {
+    const f = ui.tf; if (!f.name.trim()) return A.toast('Name the tournament'); if (f.teams.length < 2) return A.toast('Pick at least 2 teams');
+    const t = { id: CE.uid(), name: f.name.trim(), format: f.format, teamIds: f.teams.slice(), overs: f.overs, dicId: f.dicId, fixtures: [], created: Date.now() };
+    if (f.format === 'league') { for (let r = 0; r < f.rounds; r++) for (let i = 0; i < f.teams.length; i++) for (let j = i + 1; j < f.teams.length; j++) t.fixtures.push({ id: CE.uid(), a: r % 2 ? f.teams[j] : f.teams[i], b: r % 2 ? f.teams[i] : f.teams[j], round: 'League' }); }
+    else genKnock(t, f.teams.slice().sort(() => Math.random() - .5), 'Round 1');
+    A.db.tournaments.push(t); A.save(); ui.tf = null; ui.stack.pop(); A.go('tournament', { id: t.id }, true);
+  };
+  function genKnock(t, ids, label) {
+    for (let i = 0; i < ids.length; i += 2) t.fixtures.push(ids[i + 1] ? { id: CE.uid(), a: ids[i], b: ids[i + 1], round: label } : { id: CE.uid(), a: ids[i], b: null, round: label, bye: true });
+  }
+  A.views.tournament = function () {
+    const t = A.db.tournaments.find(t => t.id === ui.params.id); if (!t) return A.page('Tournament', '<div class="empty">Not found</div>');
+    let h = '';
+    if (t.champion) h += '<div class="hero c"><div class="tag k">Champions</div><h2 style="margin:6px 0">🏆 ' + esc(tm(t, t.champion)) + '</h2></div>';
+    const rounds = []; t.fixtures.forEach(f => { if (!rounds.includes(f.round)) rounds.push(f.round); });
+    rounds.forEach(r => {
+      h += '<h2>' + esc(r) + '</h2>' + t.fixtures.filter(f => f.round === r).map(f => {
+        const m = f.matchId && A.matchById(f.matchId), w = fxWinner(f);
+        return '<div class="card"><div class="row sp"><b>' + esc(tm(t, f.a)) + ' vs ' + (f.b ? esc(tm(t, f.b)) : 'BYE') + '</b>' + (m ? '<span class="tag ' + (m.status === 'completed' ? 'k' : '') + '">' + (m.status === 'completed' ? 'Done' : 'Live') + '</span>' : '') + '</div>' +
+          (m && m.status === 'completed' ? '<div class="mut">' + esc(CE.evaluate(m).text) + '</div>' : '') +
+          (f.bye ? '<div class="mut">Advances automatically</div>' : m ? '<button class="btn sm" data-a="openMatch" data-id="' + m.id + '">' + (m.status === 'completed' ? 'View' : 'Resume') + '</button>' : (A.canScore() ? '<button class="btn sm" data-a="startFixture" data-t="' + t.id + '" data-f="' + f.id + '">Start match</button>' : '')) + '</div>';
+      }).join('');
+    });
+    if (t.format === 'league') {
+      const pt = pointsTable(t);
+      h += '<h2>Points table</h2><div class="card"><table><tr><th>Team</th><th>P</th><th>W</th><th>L</th><th>T</th><th>Pts</th><th>NRR</th></tr>' + pt.map(r => '<tr><td><b>' + esc(tm(t, r.id)) + '</b></td><td>' + r.p + '</td><td>' + r.w + '</td><td>' + r.l + '</td><td>' + r.t + '</td><td><b>' + r.pts + '</b></td><td>' + (r.nrr >= 0 ? '+' : '') + A.fmt2(r.nrr) + '</td></tr>').join('') + '</table><div class="mut">Win 2 · Tie 1 · NRR on normal innings only</div></div>';
+    }
+    const ms = A.db.matches.filter(m => m.tournamentId === t.id), S = Object.values(CE.playerStats(ms));
+    if (S.length) {
+      const bat = S.slice().sort((a, b) => b.runs - a.runs)[0], bowl = S.slice().sort((a, b) => b.wkts - a.wkts || a.econ - b.econ)[0], pot = S.slice().sort((a, b) => (b.runs + 20 * b.wkts + 5 * b.sixes) - (a.runs + 20 * a.wkts + 5 * a.sixes))[0];
+      h += '<h2>Leaderboard</h2><div class="grid2">' + kpi(esc(A.nameOf(bat.id)) + '<br>' + bat.runs, 'Top batsman') + kpi(esc(A.nameOf(bowl.id)) + '<br>' + bowl.wkts, 'Top bowler') + '</div><div class="card c" style="margin-top:8px"><span class="tag k">Player of the tournament</span><h3 style="margin:6px 0">' + esc(A.nameOf(pot.id)) + '</h3><div class="mut">Points: runs + 20 × wickets + 5 × sixes</div></div>';
+    }
+    const nx = nextStage(t); if (nx && A.canConfig()) h += '<button class="btn" data-a="genNext" data-id="' + t.id + '">' + esc(nx) + '</button>';
+    return A.page(t.name, h, null);
+  };
+  function nextStage(t) {
+    if (t.champion) return null;
+    const last = t.fixtures[t.fixtures.length - 1]; if (!last) return null;
+    const cur = t.fixtures.filter(f => f.round === last.round); if (!cur.every(f => fxWinner(f))) return null;
+    if (t.format === 'league') { if (last.round === 'League') return t.teamIds.length >= 4 ? 'Create semi-finals' : 'Create final'; if (last.round === 'Semi-final') return 'Create final'; return 'Declare champion'; }
+    return cur.length === 1 && last.round !== 'Round 0' ? 'Declare champion' : 'Create next round';
+  }
+  A.actions.genNext = el => {
+    const t = A.db.tournaments.find(t => t.id === el.dataset.id), last = t.fixtures[t.fixtures.length - 1], cur = t.fixtures.filter(f => f.round === last.round);
+    const w = cur.map(fxWinner);
+    if (t.format === 'league') {
+      if (last.round === 'League') { const pt = pointsTable(t).map(r => r.id); if (pt.length >= 4) { t.fixtures.push({ id: CE.uid(), a: pt[0], b: pt[3], round: 'Semi-final' }, { id: CE.uid(), a: pt[1], b: pt[2], round: 'Semi-final' }); } else t.fixtures.push({ id: CE.uid(), a: pt[0], b: pt[1], round: 'Final' }); }
+      else if (last.round === 'Semi-final') t.fixtures.push({ id: CE.uid(), a: w[0], b: w[1], round: 'Final' });
+      else t.champion = w[0];
+    } else {
+      if (cur.length === 1) t.champion = w[0]; else { const n = t.fixtures.filter(f => /^Round/.test(f.round)).map(f => f.round).filter((x, i, a) => a.indexOf(x) === i).length + 1; genKnock(t, w, w.length === 2 ? 'Final' : w.length === 4 ? 'Semi-final' : 'Round ' + n); }
+    }
+    A.save(); A.render();
+  };
+  A.actions.startFixture = el => {
+    const t = A.db.tournaments.find(t => t.id === el.dataset.t), f = t.fixtures.find(f => f.id === el.dataset.f);
+    if (!A.db.teams.find(x => x.id === f.a) || !A.db.teams.find(x => x.id === f.b)) return A.toast('A team was deleted');
+    ui.draft = { step: 3, name: t.name + ': ' + tm(t, f.a) + ' vs ' + tm(t, f.b) + ' (' + f.round + ')', date: A.today(), venue: '', turf: '', overs: t.overs, ppt: Math.max(2, Math.min(8, A.db.teams.find(x => x.id === f.a).players.length, A.db.teams.find(x => x.id === f.b).players.length)), a: f.a, b: f.b, dicId: t.dicId, rules: CE.clone(A.db.rules), tournamentId: t.id, fixtureId: f.id, xi: {}, sub: {}, cap: {}, wk: {}, toss: {}, back: { z1: { on: true, runs: 1, change: false }, z2: { on: true, runs: 1, change: false } } };
+    A.go('newmatch');
+  };
+})();
+</script>
+<script>/* Settings, rules editor, DIC zone editor, admin */
+(function () {
+  'use strict';
+  const A = window.A, CE = A.CE, esc = A.esc, ui = A.ui;
+  const getPath = p => { const s = p.split('.'); let o = { ui: A.ui, db: A.db, draft: A.ui.draft }[s[0]]; for (let i = 1; i < s.length; i++) o = o && o[s[i]]; return o; };
+
+  /* ---------- rules form (used by settings + new match wizard) ---------- */
+  A.rulesForm = function (path, R) {
+    const num = (k, l) => '<div><label>' + l + '</label><input type="number" min="0" data-n data-b="' + path + '.' + k + '" value="' + R[k] + '"></div>';
+    const sw = (k, l, sub) => '<div class="sw"><span>' + l + (sub ? '<div class="mut">' + sub + '</div>' : '') + '</span><input type="checkbox" data-b="' + path + '.' + k + '"' + (R[k] ? ' checked' : '') + '></div>';
+    let h = '<div class="card"><h3 style="margin-top:0">Overs &amp; extras</h3><div class="grid2">' + num('ballsPerOver', 'Balls per over') + num('maxOversPerBowler', 'Max overs / bowler (0 = no limit)') + num('wideRuns', 'Wide penalty runs') + num('noBallRuns', 'No-ball penalty runs') + '</div>' +
+      sw('wideReball', 'Wide is re-bowled', 'Off = a wide counts as a ball') + sw('noBallReball', 'No-ball is re-bowled') + sw('freeHit', 'Free hit after no-ball', 'Only run out allowed on a free hit') + sw('overEndSwap', 'Change strike at end of over') + sw('lastManBatting', 'Last-man batting', 'Innings continues until every batter is out') + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Dismissals allowed</h3>' + CE.DISMISSALS.map(d => '<div class="sw"><span>' + esc(d.label) + '</span><input type="checkbox" data-b="' + path + '.dismissals.' + d.k + '"' + (R.dismissals[d.k] !== false ? ' checked' : '') + '></div>').join('') + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Super over</h3>' + sw('superOver', 'Super over on a tie') + '<div class="grid2">' + num('superOverOvers', 'Super over overs') + num('superOverWickets', 'Wickets') + '</div></div>';
+    h += '<div class="card"><h3 style="margin-top:0">DIC scoring</h3>' + sw('autoCommitZone', 'Auto-score on zone tap', 'Off = tap a zone, check it, then Confirm') + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">Local rule shots</h3><div class="mut">Quick buttons on the scoring screen for roof, side-wall, net-touch and similar local rules.</div>' +
+      (R.special || []).map((s, i) => '<div class="card" style="margin:8px 0"><input data-b="' + path + '.special.' + i + '.name" value="' + esc(s.name) + '" placeholder="Rule name"><div class="grid3"><div><label>Runs</label><input type="number" min="0" max="8" data-n data-b="' + path + '.special.' + i + '.runs" value="' + s.runs + '"></div><div><label>Strike</label><select data-b="' + path + '.special.' + i + '.rotate"><option value="keep"' + (s.rotate === 'keep' ? ' selected' : '') + '>Same</option><option value="change"' + (s.rotate === 'change' ? ' selected' : '') + '>Change</option></select></div><div><label>Out?</label><input type="checkbox" data-b="' + path + '.special.' + i + '.out"' + (s.out ? ' checked' : '') + '></div></div><button class="btn sm danger" data-a="delSpecial" data-p="' + path + '" data-i="' + i + '">Remove</button></div>').join('') +
+      '<button class="btn sm" data-a="addSpecial" data-p="' + path + '">+ Add local rule</button></div>';
+    h += '<div class="card"><label>Rule notes (boundary, roof, side wall, net touch…)</label><textarea rows="3" data-b="' + path + '.notes" placeholder="Anything the scorers should remember">' + esc(R.notes || '') + '</textarea></div>';
+    return h;
+  };
+  A.actions.addSpecial = el => { const R = getPath(el.dataset.p); (R.special = R.special || []).push({ id: CE.uid(), name: 'New rule', runs: 1, rotate: 'keep', out: false }); if (/^db/.test(el.dataset.p)) A.save(); A.render(); };
+  A.actions.delSpecial = el => { const R = getPath(el.dataset.p); R.special.splice(+el.dataset.i, 1); if (/^db/.test(el.dataset.p)) A.save(); A.render(); };
+
+  A.views.rules = function () {
+    const ro = !A.canConfig();
+    return A.page('Default rules', (ro ? '<div class="card">Only an Admin can change rules.</div>' : '<p class="mut">These are the defaults for every new match. Each match stores its own copy, so changing them never affects past matches.</p>') + '<fieldset ' + (ro ? 'disabled' : '') + ' style="border:0;padding:0;margin:0">' + A.rulesForm('db.rules', A.db.rules) + '</fieldset>' +
+      (ro ? '' : '<button class="btn ghost" data-a="resetRules">Reset rules to defaults</button>'), null, { keepScroll: true });
+  };
+  A.actions.resetRules = () => { A.db.rules = CE.clone(CE.DEFAULT_RULES); A.save(); A.render(); };
+
+  /* ---------- DIC editor ---------- */
+  function curDic() { return A.db.dics.find(d => d.id === ui.dicId) || A.db.dics[0]; }
+  A.views.dic = function () {
+    const d = curDic(), di = A.db.dics.indexOf(d), ro = !A.canConfig();
+    const grp = ui.zsel ? zgrp(d) : [], z = grp[0] || null;
+    const zname = ui.zsel === 'z1' ? 'Zone 1 (near ring)' : 'Zone 2 (grey area)';
+    let h = '<p class="mut">Only <b>Zone 1</b> (the near ring around the pitch) and <b>Zone 2</b> (the grey area beside it) are DIC zones: you choose their runs and whether the strike changes. Everything else stays fixed: Middle 2, Outer 3 (strike changes), Boundary 4, over the net 6. Make one preset per turf or tournament.</p>' +
+      '<label>Preset</label><select data-b="ui.dicId" data-r>' + A.db.dics.map(x => '<option value="' + x.id + '"' + (x.id === d.id ? ' selected' : '') + '>' + esc(x.name + (x.turf ? ' · ' + x.turf : '')) + '</option>').join('') + '</select>' +
+      '<div class="grid2"><div><label>Preset name</label><input data-b="db.dics.' + di + '.name" value="' + esc(d.name) + '"' + (ro ? ' disabled' : '') + '></div><div><label>Turf / ground</label><input data-b="db.dics.' + di + '.turf" value="' + esc(d.turf || '') + '" placeholder="Turf name"' + (ro ? ' disabled' : '') + '></div></div>' +
+      '<div class="card">' + '<div class="row sp"><span class="mut">Tap Zone 1 or Zone 2 to edit</span><button class="chip on" style="margin:0;flex:none" data-a="names">' + (ui.names ? 'Show runs' : 'Show shot names') + '</button></div>' + A.groundSVG(d.zones, { cfg: true, sel: ui.zsel, act: 'dzone', names: ui.names }) + '</div>';
+    if (z) {
+      h += '<div class="zinfo" style="position:static"><div class="z">' + zname + '</div>' +
+        '<div class="sw" style="border:0"><span>Zone switched on</span><input type="checkbox" ' + (z.off ? '' : 'checked') + ' onchange="A.actions.dzoff(this.checked)"' + (ro ? ' disabled' : '') + '></div>' +
+        '<div class="row"><button data-a="dzrun" data-d="-1"' + (ro ? ' disabled' : '') + '>−</button><div class="c b" style="font-size:24px">' + z.runs + ' run' + (z.runs === 1 ? '' : 's') + '</div><button data-a="dzrun" data-d="1"' + (ro ? ' disabled' : '') + '>+</button></div>' +
+        '<div class="row" style="margin-top:8px"><button data-a="dzrot" data-v="keep" style="' + (z.rotate === 'keep' ? 'background:#000;color:var(--y)' : '') + '"' + (ro ? ' disabled' : '') + '>Same striker</button><button data-a="dzrot" data-v="change" style="' + (z.rotate === 'change' ? 'background:#000;color:var(--y)' : '') + '"' + (ro ? ' disabled' : '') + '>Change strike ↻</button></div></div>';
+    }
+    h += '<div class="card"><h3 style="margin-top:0">Shot names</h3><div class="mut">Left to right around the ground (right-hand batter). Shown with "Show shot names".</div><div class="grid2">' + CE.SHOTS.map((n, k) => '<div><label>' + (k + 1) + '</label><input value="' + esc((d.zones.find(x => x.ring === 1 && x.sec === k) || {}).label || n) + '" onchange="A.actions.shotName(' + k + ',this.value)"' + (ro ? ' disabled' : '') + '></div>').join('') + '</div></div>';
+    if (!ro) h += '<div class="grid2" style="margin-top:10px"><button class="btn sm" data-a="dicNew">+ New preset</button><button class="btn sm ghost" data-a="dicDup">Duplicate</button><button class="btn sm ghost" data-a="dicReset">Reset zones</button><button class="btn sm danger" data-a="dicDel"' + (A.db.dics.length < 2 ? ' disabled' : '') + '>Delete</button></div>';
+    return A.page('DIC zones', h, null, { keepScroll: true });
+  };
+  const zgrp = d => ui.zsel === 'z1' ? d.zones.filter(z => z.ring === 0 && z.id !== 'z2') : d.zones.filter(z => z.id === ui.zsel);
+  A.actions.dzone = el => {
+    const d = curDic(), z = d.zones.find(x => x.id === el.dataset.z); if (!z) return;
+    if (z.id === 'z2') ui.zsel = 'z2'; else if (z.ring === 0) ui.zsel = 'z1';
+    else { ui.zsel = null; A.toast('Fixed zone: ' + z.runs + ' run' + (z.runs === 1 ? '' : 's') + '. Only Zone 1 and Zone 2 can be changed'); }
+    A.render();
+  };
+  A.actions.dzrun = el => { if (!A.canConfig()) return; zgrp(curDic()).forEach(z => z.runs = Math.max(0, Math.min(8, z.runs + (+el.dataset.d)))); A.save(); A.render(); };
+  A.actions.dzrot = el => { if (!A.canConfig()) return; zgrp(curDic()).forEach(z => z.rotate = el.dataset.v); A.save(); A.render(); };
+  A.actions.shotName = (k, v) => { if (!A.canConfig()) return; v = (v || '').trim(); if (!v) return A.render(); curDic().zones.filter(z => z.ring < 5 && z.sec === k).forEach(z => z.label = v); A.save(); A.toast('Saved'); A.render(); };
+  A.actions.dzoff = on => { if (!A.canConfig()) return; zgrp(curDic()).forEach(z => z.off = !on); A.save(); A.render(); };
+  A.actions.dicNew = () => { const d = CE.defaultDic('New turf'); A.db.dics.push(d); ui.dicId = d.id; ui.zsel = null; A.save(); A.render(); };
+  A.actions.dicDup = () => { const d = CE.clone(curDic()); d.id = CE.uid(); d.name += ' copy'; A.db.dics.push(d); ui.dicId = d.id; A.save(); A.render(); };
+  A.actions.dicReset = () => { if (!confirm('Reset this preset (Zone 1, Zone 2 and shot names) to the defaults?')) return; curDic().zones = CE.buildDefaultZones(); A.save(); A.render(); };
+  A.actions.dicDel = () => { if (!confirm('Delete this preset? Past matches keep their own copy.')) return; A.db.dics = A.db.dics.filter(x => x.id !== curDic().id); ui.dicId = A.db.dics[0].id; ui.zsel = null; A.save(); A.render(); };
+
+  /* ---------- settings / more ---------- */
+  A.views.settings = function () {
+    const u = A.db.user || {};
+    const row = (a, v, t, s) => '<button class="card" style="width:100%;text-align:left" data-a="go" data-v="' + v + '"><b>' + t + '</b><div class="mut">' + s + '</div></button>';
+    let h = '<div class="card row sp"><div><b>' + esc(u.name || '') + '</b><div class="mut">Role: ' + esc(u.role || '') + '</div></div><button class="btn sm ghost" data-a="logout" style="flex:none">Switch</button></div>' +
+      '<div class="card"><div class="sw"><span><b>Dark mode</b></span><button class="chip on" style="margin:0" data-a="theme">' + (A.db.theme === 'dark' ? 'On: tap for light' : 'Off: tap for dark') + '</button></div>' +
+      '<div class="sw"><span><b>4 / 6 celebration sound</b><div class="mut">The animated background always plays</div></span><input type="checkbox" data-b="db.sound"' + (A.db.sound ? ' checked' : '') + '></div></div>';
+    h += row('go', 'dic', '◎ DIC zone presets', 'Runs and strike rotation per zone, per turf') + row('go', 'rules', '⚙ Default match rules', 'Wides, no-balls, free hit, local rule shots…') + row('go', 'tournaments', '🏆 Tournaments', 'Fixtures, points table, NRR, leaderboards') + row('go', 'admin', '🛡 Admin, backup & sync', 'Backup data, restore, offline sync') + row('go', 'about', 'ⓘ About', 'Version and how DIC scoring works');
+    return A.page('More', h, 'more', { noBack: true });
+  };
+  A.actions.logout = () => { A.db.user = null; A.save(); ui.stack = []; ui.view = 'login'; A.render(); };
+
+  A.views.about = function () {
+    return A.page('About', '<div class="card"><b>CricTruf 1.0</b><p>CricTruf is built for tennis-ball, turf, box and gully cricket. Every delivery is saved on your phone the moment you score it, so it works with no internet.</p><h3>How DIC scoring works</h3><p>Open the <b>DIC Ground</b> tab while scoring and tap where the ball went. Zone 1 (back wall) and Zone 2 (behind square) give the runs you chose at the start of the match, by default 1 run with the same striker until the over completes. The front field is split into shot sectors (cover, cut, straight drive and so on) and only there can a 4 or a 6 be scored. The zone\'s runs and strike rule are applied. Confirm, or override the runs / strike for that one ball. The tapped zone is saved with the delivery and shown in Analytics.</p><h3>Undo &amp; correction</h3><p>Undo removes the last delivery. Correct lets you fix any of the last 12 balls. Every undo and correction is kept in the match audit history.</p></div>', null);
+  };
+
+  /* ---------- admin ---------- */
+  A.views.admin = function () {
+    const ro = !A.canConfig();
+    const pend = A.db.matches.filter(m => (m.updated || m.created) > (A.db.lastSync || 0)).length;
+    let h = '<div class="card"><h3 style="margin-top:0">Role on this device</h3><div>' + ['admin', 'scorer', 'viewer'].map(r => '<button class="chip ' + (A.db.user.role === r ? 'on' : '') + '" data-a="role" data-v="' + r + '">' + r + '</button>').join('') + '</div><div class="mut">Admin: rules, DIC, tournaments. Scorer: scoring. Viewer: read only.</div></div>';
+    h += '<div class="card"><h3 style="margin-top:0">Offline sync</h3><div class="mut">All deliveries are stored on this device. ' + pend + ' match(es) changed since the last sync' + (A.db.lastSync ? ' (' + new Date(A.db.lastSync).toLocaleString() + ')' : '') + '. Each delivery has a unique id so a server can ignore duplicates.</div>' +
+      '<label>Server URL (optional)</label><input data-b="db.serverUrl" value="' + esc(A.db.serverUrl || '') + '" placeholder="https://your-server.example.com"><button class="btn" data-a="syncNow">Sync now</button><div class="mut" style="margin-top:6px">No server is included in this build: leave blank to use on-device storage and the backup below.</div></div>';
+    h += '<div class="card"><h3 style="margin-top:0">Backup &amp; restore</h3><button class="btn" data-a="backup">Copy / share full backup</button><label style="display:block;margin-top:10px">Paste a backup to restore</label><textarea rows="3" data-b="ui.restore" placeholder="Paste backup JSON here"></textarea><button class="btn ghost" data-a="restore"' + (ro ? ' disabled' : '') + '>Restore</button></div>';
+    h += '<div class="card"><h3 style="margin-top:0">Audit history</h3>' + (function () { const a = []; A.db.matches.forEach(m => (m.audit || []).forEach(x => a.push({ m: m.name, x }))); a.sort((p, q) => q.x.ts - p.x.ts); return a.length ? a.slice(0, 15).map(r => '<div class="row sp"><span>' + esc(r.m) + ' · <b>' + r.x.action + '</b></span><span class="mut">' + new Date(r.x.ts).toLocaleTimeString() + '</span></div>').join('') : '<span class="mut">No undo/correction yet</span>'; })() + '</div>';
+    if (!ro) h += '<button class="btn danger" data-a="wipe">Erase all data on this device</button>';
+    return A.page('Admin', h, null, { keepScroll: true });
+  };
+  A.actions.role = el => { A.db.user.role = el.dataset.v; A.save(); A.render(); };
+  A.actions.backup = () => A.copy(JSON.stringify(A.db));
+  A.actions.restore = () => {
+    try { const d = JSON.parse(ui.restore); if (!d.v || !d.matches) throw 0; if (!confirm('Replace all data on this device with this backup?')) return; d.user = A.db.user; A.db = d; A.save(); A.toast('Restored'); ui.restore = ''; A.render(); } catch (e) { A.toast('Not a valid backup'); }
+  };
+  A.actions.wipe = () => { if (!confirm('Erase everything on this device? This cannot be undone.')) return; localStorage.removeItem(A.KEY); location.reload(); };
+  A.actions.syncNow = async () => {
+    const url = (A.db.serverUrl || '').replace(/\/$/, ''); if (!url) return A.toast('Offline mode: no server set');
+    if (!navigator.onLine) return A.toast('No internet connection');
+    try {
+      const r = await fetch(url + '/api/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user: A.db.user, matches: A.db.matches.filter(m => (m.updated || m.created) > (A.db.lastSync || 0)) }) });
+      if (!r.ok) throw new Error(r.status); A.db.lastSync = Date.now(); A.save(); A.toast('Synced'); A.render();
+    } catch (e) { A.toast('Sync failed: saved on device'); }
+  };
+  window.addEventListener('online', () => { if (A.db.serverUrl) A.actions.syncNow(); });
+})();
+</script>
+<script>(function () {
+  'use strict';
+  const A = window.A;
+  A.views.more = A.views.settings;
+  if (A.db.user) A.ui.view = 'home';
+  A.render();
+  // Android back button hook (used by the native wrapper): returns true when handled
+  window.__back = function () {
+    const ui = A.ui;
+    if (ui.modal && ui.view !== 'live') { ui.modal = null; A.render(); return true; }
+    if (ui.stack.length) { A.back(); return true; }
+    if (ui.view !== 'home' && ui.view !== 'login') { ui.view = 'home'; ui.modal = null; A.render(); return true; }
+    return false;
+  };
+  // PWA service worker (only on http/https, not inside the Android WebView file:// origin)
+  if ('serviceWorker' in navigator && /^https?:/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => { });
+})();
+</script>
+</body>
+</html>
